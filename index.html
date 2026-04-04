@@ -2,431 +2,485 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Winsome Admin Panel</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --ink: #0a0608;
-  --cream: #f7f2ec;
-  --gold: #c9a96e;
-  --gold-light: #e8d5b0;
-  --plum: #3d1c3a;
-  --sidebar: #0d0a10;
-  --panel: #120e18;
-  --card: #1a1520;
-  --border: rgba(201,169,110,0.12);
-  --text-muted: rgba(247,242,236,0.4);
-  --success: #2d8a4e;
-  --danger: #c4404a;
-  --warning: #c9a020;
+:root{
+  --bg:#0f0d1a;--bg2:#16132a;--bg3:#1e1a36;
+  --gold:#c9a96e;--gold2:#e8d5b0;
+  --text:#f0eeff;--muted:rgba(240,238,255,0.4);
+  --border:rgba(201,169,110,0.12);
+  --success:#2d8a4e;--danger:#c4404a;--warn:#c9a020;
+  --accent:#9b72cf;
+  --sidebar-w:230px;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body { background: var(--ink); color: var(--cream); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;}
 
-/* ─── LOGIN SCREEN ─────────────────────────── */
-#loginScreen {
-  min-height: 100vh; display: flex; align-items: center; justify-content: center;
-  background: radial-gradient(ellipse 80% 80% at 50% 50%, rgba(61,28,58,0.5) 0%, var(--ink) 70%);
-}
-.login-box {
-  text-align: center; max-width: 380px; width: 100%; padding: 20px;
-  animation: fadeUp 0.6s ease;
-}
-@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-.login-ornament {
-  width: 80px; height: 80px; margin: 0 auto 24px;
-  border: 1px solid rgba(201,169,110,0.3);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  animation: rotateSlow 20s linear infinite;
-}
-@keyframes rotateSlow { to { transform: rotate(360deg); } }
-.login-logo {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 42px; font-weight: 300; color: var(--gold);
-  animation: rotateSlow 20s linear infinite reverse;
-}
-.login-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 32px; font-weight: 300; color: var(--cream); margin-bottom: 8px;
-}
-.login-sub { font-size: 12px; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 36px; }
-.google-btn {
-  display: flex; align-items: center; justify-content: center; gap: 14px;
-  width: 100%; padding: 16px 24px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(201,169,110,0.2);
-  color: var(--cream); font-size: 13px; font-weight: 500;
-  cursor: pointer; transition: all 0.3s; font-family: 'DM Sans', sans-serif;
-}
-.google-btn:hover { background: rgba(201,169,110,0.08); border-color: var(--gold); transform: translateY(-2px); }
-.google-icon { width: 20px; height: 20px; }
-.login-note { font-size: 11px; color: var(--text-muted); margin-top: 16px; }
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(201,169,110,0.25);border-radius:4px;}
 
-/* ─── ADMIN LAYOUT ─────────────────────────── */
-#adminApp { display: none; min-height: 100vh; flex-direction: column; }
-#adminApp.active { display: flex; }
-
-/* Top Bar */
-.topbar {
-  background: var(--sidebar);
-  border-bottom: 1px solid var(--border);
-  padding: 0 24px;
-  height: 60px;
-  display: flex; align-items: center; justify-content: space-between;
-  position: sticky; top: 0; z-index: 100;
+/* ══════════════════════════════════════════
+   LOGIN
+══════════════════════════════════════════ */
+#loginScreen{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse 80% 80% at 50% 40%,rgba(155,114,207,0.15) 0%,var(--bg) 70%);
 }
-.topbar-logo {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 20px; font-weight: 300; letter-spacing: 3px; color: var(--cream);
+.login-box{max-width:400px;width:100%;padding:20px;animation:fadeUp 0.6s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+.login-logo-wrap{
+  width:90px;height:90px;margin:0 auto 28px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(201,169,110,0.15),rgba(155,114,207,0.1));
+  border:1px solid rgba(201,169,110,0.25);
+  display:flex;align-items:center;justify-content:center;position:relative;
 }
-.topbar-logo span { color: var(--gold); }
-.topbar-right { display: flex; align-items: center; gap: 16px; }
-.user-chip {
-  display: flex; align-items: center; gap: 10px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border);
-  padding: 6px 14px;
-  font-size: 12px; color: var(--text-muted);
+.login-logo-wrap::before{
+  content:'';position:absolute;inset:-8px;border-radius:50%;
+  border:1px dashed rgba(201,169,110,0.15);animation:rotateSlow 15s linear infinite;
 }
-.user-avatar {
-  width: 28px; height: 28px; border-radius: 50%;
-  border: 1px solid var(--border);
+@keyframes rotateSlow{to{transform:rotate(360deg);}}
+.login-logo{font-family:'Playfair Display',serif;font-size:36px;font-weight:900;
+  background:linear-gradient(135deg,var(--gold),var(--accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+.login-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;
+  text-align:center;color:var(--text);margin-bottom:6px;}
+.login-sub{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;
+  text-align:center;margin-bottom:32px;}
+
+.login-card{
+  background:rgba(255,255,255,0.03);border:1px solid var(--border);
+  border-radius:16px;padding:28px;backdrop-filter:blur(10px);
 }
-.logout-btn {
-  background: none; border: 1px solid var(--border);
-  color: var(--text-muted); padding: 6px 14px;
-  font-size: 11px; letter-spacing: 1px; cursor: pointer;
-  transition: all 0.3s; font-family: 'DM Sans', sans-serif;
+.login-input{
+  width:100%;padding:13px 16px;margin-bottom:10px;
+  background:rgba(255,255,255,0.05);border:1px solid rgba(201,169,110,0.2);
+  color:var(--text);font-family:'Inter',sans-serif;font-size:14px;
+  border-radius:8px;outline:none;transition:border-color 0.3s;
 }
-.logout-btn:hover { border-color: var(--danger); color: var(--danger); }
-.view-site-btn {
-  background: var(--gold); color: var(--ink);
-  border: none; padding: 8px 18px;
-  font-size: 11px; letter-spacing: 1px; cursor: pointer;
-  font-weight: 500; transition: all 0.2s; text-decoration: none;
-  font-family: 'DM Sans', sans-serif; display: inline-block;
+.login-input:focus{border-color:rgba(201,169,110,0.5);}
+.login-input::placeholder{color:var(--muted);}
+.login-divider{display:flex;align-items:center;gap:12px;margin:16px 0;}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+.login-divider span{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
+.login-note{font-size:11px;color:var(--muted);text-align:center;margin-top:16px;}
+
+/* ══════════════════════════════════════════
+   TOPBAR
+══════════════════════════════════════════ */
+#adminApp{display:none;min-height:100vh;flex-direction:column;}
+#adminApp.active{display:flex;}
+
+.topbar{
+  height:58px;background:rgba(15,13,26,0.95);border-bottom:1px solid var(--border);
+  padding:0 20px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:200;backdrop-filter:blur(20px);flex-shrink:0;
 }
-.view-site-btn:hover { background: var(--gold-light); }
-
-/* Main Layout */
-.admin-body { display: flex; flex: 1; }
-
-/* Sidebar */
-.sidebar {
-  width: 220px; background: var(--sidebar);
-  border-right: 1px solid var(--border);
-  padding: 20px 0;
-  position: sticky; top: 60px;
-  height: calc(100vh - 60px);
-  overflow-y: auto;
-  flex-shrink: 0;
+.topbar-logo{
+  font-family:'Playfair Display',serif;font-size:18px;font-weight:900;
+  background:linear-gradient(135deg,var(--gold),var(--accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  letter-spacing:2px;
 }
-.sidebar-section { padding: 8px 20px 4px; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: rgba(201,169,110,0.4); margin-top: 8px; }
-.nav-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 11px 20px;
-  font-size: 13px; color: var(--text-muted);
-  cursor: pointer; transition: all 0.2s;
-  border-left: 2px solid transparent;
+.topbar-logo small{font-family:'Inter',sans-serif;font-size:9px;letter-spacing:3px;
+  -webkit-text-fill-color:var(--muted);color:var(--muted);display:block;font-weight:400;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.topbar-badge{
+  display:flex;align-items:center;gap:6px;padding:5px 12px;
+  border:1px solid rgba(45,138,78,0.25);background:rgba(45,138,78,0.08);
+  font-size:10px;letter-spacing:1px;color:#6dbd8a;border-radius:6px;
+  opacity:0;transition:opacity 0.5s;
 }
-.nav-item:hover { color: var(--cream); background: rgba(255,255,255,0.03); }
-.nav-item.active { color: var(--gold); border-left-color: var(--gold); background: rgba(201,169,110,0.06); }
-.nav-icon { font-size: 15px; width: 20px; text-align: center; }
-.badge { background: var(--gold); color: var(--ink); font-size: 9px; font-weight: 600; padding: 2px 7px; border-radius: 20px; margin-left: auto; }
-.badge.red { background: var(--danger); color: white; }
-
-/* Content Area */
-.content { flex: 1; padding: 28px; overflow-y: auto; max-width: 100%; }
-
-/* Tabs */
-.tab { display: none; }
-.tab.active { display: block; }
-
-/* Page Header */
-.page-header { margin-bottom: 28px; }
-.page-title { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--cream); }
-.page-title em { font-style: italic; color: var(--gold); }
-.page-sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
-
-/* Cards / Panels */
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  padding: 24px;
+.topbar-badge.show{opacity:1;}
+.pulse-dot{width:6px;height:6px;border-radius:50%;background:#6dbd8a;animation:pulseDot 2s infinite;}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(1.5);}}
+.save-status{font-size:11px;color:var(--muted);min-width:90px;text-align:right;}
+.topbar-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 14px;font-size:11px;font-weight:500;letter-spacing:0.5px;
+  border-radius:7px;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;
+  text-decoration:none;
 }
-.card-title {
-  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 20px;
-  display: flex; align-items: center; justify-content: space-between;
+.btn-view{background:rgba(201,169,110,0.12);border:1px solid rgba(201,169,110,0.25);color:var(--gold);}
+.btn-view:hover{background:rgba(201,169,110,0.2);}
+.btn-signout{background:rgba(196,64,74,0.1);border:1px solid rgba(196,64,74,0.2);color:#e07070;}
+.btn-signout:hover{background:rgba(196,64,74,0.2);}
+.user-chip{display:flex;align-items:center;gap:8px;padding:4px 12px 4px 4px;
+  background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:30px;}
+.user-avatar{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);background:var(--bg3);}
+.user-name{font-size:12px;color:var(--muted);}
+
+/* ══════════════════════════════════════════
+   LAYOUT
+══════════════════════════════════════════ */
+.admin-body{display:flex;flex:1;min-height:0;}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:var(--sidebar-w);flex-shrink:0;background:var(--bg2);
+  border-right:1px solid var(--border);padding:16px 0;
+  position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto;
 }
-.stat-card { background: var(--card); border: 1px solid var(--border); padding: 20px; }
-.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 40px; font-weight: 300; color: var(--gold); }
-.stat-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; }
-
-/* Form Elements */
-.field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
-.field label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
-.field input, .field select, .field textarea {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border);
-  color: var(--cream); padding: 10px 12px;
-  font-family: 'DM Sans', sans-serif; font-size: 13px;
-  outline: none; transition: border-color 0.3s; width: 100%; border-radius: 0;
+.sidebar-section{
+  padding:12px 18px 4px;font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(201,169,110,0.35);margin-top:4px;
 }
-.field input:focus, .field select:focus, .field textarea:focus { border-color: rgba(201,169,110,0.4); }
-.field select option { background: #1a1520; }
-.field textarea { resize: vertical; min-height: 80px; }
-
-/* Buttons */
-.btn { padding: 10px 20px; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; font-weight: 500; cursor: pointer; transition: all 0.2s; border: none; font-family: 'DM Sans', sans-serif; }
-.btn-gold { background: var(--gold); color: var(--ink); }
-.btn-gold:hover { background: var(--gold-light); }
-.btn-outline { background: none; border: 1px solid var(--border); color: var(--text-muted); }
-.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
-.btn-danger { background: rgba(196,64,74,0.15); border: 1px solid rgba(196,64,74,0.3); color: #e07070; }
-.btn-danger:hover { background: rgba(196,64,74,0.25); }
-.btn-success { background: rgba(45,138,78,0.15); border: 1px solid rgba(45,138,78,0.3); color: #6dbd8a; }
-.btn-success:hover { background: rgba(45,138,78,0.25); }
-.btn-sm { padding: 6px 14px; font-size: 10px; }
-
-/* Toast */
-.toast {
-  position: fixed; bottom: 24px; right: 24px; z-index: 9999;
-  background: var(--card); border: 1px solid var(--border);
-  padding: 14px 20px; font-size: 13px;
-  transform: translateY(100px); opacity: 0;
-  transition: all 0.4s; pointer-events: none;
-  display: flex; align-items: center; gap: 10px;
+.nav-item{
+  display:flex;align-items:center;gap:10px;padding:10px 18px;
+  font-size:13px;color:var(--muted);cursor:pointer;transition:all 0.2s;
+  border-left:2px solid transparent;border-radius:0 8px 8px 0;margin:1px 8px 1px 0;
 }
-.toast.show { transform: translateY(0); opacity: 1; }
-.toast.success { border-color: rgba(45,138,78,0.4); }
-.toast.error { border-color: rgba(196,64,74,0.4); }
+.nav-item:hover{color:var(--text);background:rgba(255,255,255,0.04);}
+.nav-item.active{color:var(--gold);border-left-color:var(--gold);background:rgba(201,169,110,0.07);}
+.nav-icon{font-size:14px;width:20px;text-align:center;flex-shrink:0;}
+.nav-badge{background:var(--danger);color:#fff;font-size:9px;padding:2px 7px;border-radius:20px;margin-left:auto;}
 
-/* ─── IMAGE UPLOAD ───────────────────────── */
-.img-upload-zone {
-  border: 2px dashed var(--border);
-  padding: 32px; text-align: center;
-  cursor: pointer; transition: all 0.3s;
-  position: relative;
+/* ── CONTENT ── */
+.content{flex:1;padding:24px;overflow-y:auto;min-width:0;}
+.tab{display:none;animation:fadeUp 0.3s ease;}
+.tab.active{display:block;}
+
+/* ══════════════════════════════════════════
+   PAGE HEADER
+══════════════════════════════════════════ */
+.page-header{margin-bottom:24px;}
+.page-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--text);}
+.page-title em{font-style:italic;background:linear-gradient(135deg,var(--gold),var(--accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.page-sub{font-size:13px;color:var(--muted);margin-top:4px;}
+
+/* ══════════════════════════════════════════
+   CARDS & GRIDS
+══════════════════════════════════════════ */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:22px;}
+.card-title{
+  font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);
+  margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;
 }
-.img-upload-zone:hover { border-color: rgba(201,169,110,0.4); background: rgba(201,169,110,0.03); }
-.img-upload-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-.upload-icon { font-size: 32px; margin-bottom: 10px; color: var(--text-muted); }
-.upload-text { font-size: 12px; color: var(--text-muted); }
-.upload-text strong { color: var(--gold); }
-.img-preview { width: 100%; max-height: 200px; object-fit: cover; display: none; margin-top: 12px; border: 1px solid var(--border); }
-.img-preview.show { display: block; }
-.upload-progress { height: 3px; background: var(--border); margin-top: 10px; display: none; }
-.upload-progress-bar { height: 100%; background: var(--gold); width: 0%; transition: width 0.3s; }
-
-/* ─── GALLERY GRID ───────────────────────── */
-.gallery-admin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
-.gallery-thumb {
-  position: relative; aspect-ratio: 1;
-  background: var(--card); border: 1px solid var(--border); overflow: hidden;
+.stat-card{
+  background:var(--bg3);border:1px solid var(--border);border-radius:12px;
+  padding:18px;position:relative;overflow:hidden;
 }
-.gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
-.gallery-thumb-del {
-  position: absolute; top: 6px; right: 6px;
-  background: rgba(196,64,74,0.8); color: white;
-  border: none; width: 26px; height: 26px; cursor: pointer;
-  font-size: 12px; display: flex; align-items: center; justify-content: center;
-  opacity: 0; transition: opacity 0.2s;
+.stat-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),var(--accent));opacity:0.5;
 }
-.gallery-thumb:hover .gallery-thumb-del { opacity: 1; }
+.stat-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:var(--gold);}
+.stat-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:4px;}
 
-/* ─── THEME GRID ─────────────────────────── */
-.theme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; }
-.theme-card {
-  border: 2px solid var(--border); padding: 14px;
-  cursor: pointer; transition: all 0.3s; text-align: center;
+/* ══════════════════════════════════════════
+   FORMS
+══════════════════════════════════════════ */
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+.field label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+.field input,.field select,.field textarea{
+  background:rgba(255,255,255,0.04);border:1px solid var(--border);
+  color:var(--text);padding:10px 13px;font-family:'Inter',sans-serif;font-size:13px;
+  border-radius:8px;outline:none;transition:border-color 0.3s;width:100%;
 }
-.theme-card:hover { border-color: rgba(201,169,110,0.4); transform: translateY(-3px); }
-.theme-card.selected { border-color: var(--gold); }
-.theme-swatch { height: 60px; margin-bottom: 10px; display: flex; overflow: hidden; }
-.theme-swatch-col { flex: 1; }
-.theme-name { font-size: 11px; letter-spacing: 1px; color: var(--cream); }
-.theme-tag { font-size: 9px; color: var(--text-muted); margin-top: 2px; }
+.field input:focus,.field select:focus,.field textarea:focus{border-color:rgba(201,169,110,0.45);}
+.field input::placeholder,.field textarea::placeholder{color:var(--muted);}
+.field select option{background:var(--bg2);}
+.field textarea{resize:vertical;min-height:80px;}
 
-/* ─── COLOR PICKER ROW ───────────────────── */
-.color-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
-.color-field { display: flex; flex-direction: column; gap: 6px; }
-.color-field label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
-.color-field input[type=color] { width: 48px; height: 40px; border: 1px solid var(--border); background: none; cursor: pointer; padding: 2px; }
-
-/* ─── APPOINTMENTS TABLE ─────────────────── */
-.appt-table { width: 100%; border-collapse: collapse; }
-.appt-table th { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
-.appt-table td { padding: 12px 14px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
-.appt-table tr:hover td { background: rgba(255,255,255,0.02); }
-.status-badge { padding: 3px 10px; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-weight: 500; }
-.status-pending { background: rgba(201,160,32,0.15); color: #c9a020; border: 1px solid rgba(201,160,32,0.2); }
-.status-confirmed { background: rgba(45,138,78,0.15); color: #6dbd8a; border: 1px solid rgba(45,138,78,0.2); }
-.status-done { background: rgba(100,100,120,0.15); color: #9090a0; border: 1px solid rgba(100,100,120,0.2); }
-.status-cancelled { background: rgba(196,64,74,0.12); color: #e07070; border: 1px solid rgba(196,64,74,0.2); }
-
-/* ─── SERVICES ADMIN ─────────────────────── */
-.svc-admin-card {
-  background: var(--card); border: 1px solid var(--border);
-  padding: 20px; display: grid;
-  grid-template-columns: 1fr 1fr auto;
-  gap: 16px; align-items: start;
-  margin-bottom: 12px;
+/* ══════════════════════════════════════════
+   BUTTONS
+══════════════════════════════════════════ */
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:10px 20px;font-size:11px;letter-spacing:0.5px;font-weight:600;
+  cursor:pointer;transition:all 0.2s;border:none;font-family:'Inter',sans-serif;
+  border-radius:8px;
 }
-.svc-admin-num { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--gold); opacity: 0.4; }
+.btn-gold{background:linear-gradient(135deg,var(--gold),#b8903a);color:#0a0608;}
+.btn-gold:hover{opacity:0.9;transform:translateY(-1px);}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--muted);}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+.btn-danger{background:rgba(196,64,74,0.12);border:1px solid rgba(196,64,74,0.25);color:#e07070;}
+.btn-danger:hover{background:rgba(196,64,74,0.22);}
+.btn-success{background:rgba(45,138,78,0.12);border:1px solid rgba(45,138,78,0.25);color:#6dbd8a;}
+.btn-success:hover{background:rgba(45,138,78,0.22);}
+.btn-sm{padding:6px 13px;font-size:10px;}
+.btn-full{width:100%;justify-content:center;}
 
-/* ─── RESPONSIVE ─────────────────────────── */
-@media (max-width: 768px) {
-  .sidebar { display: none; }
-  .grid-2, .grid-3 { grid-template-columns: 1fr; }
-  .content { padding: 14px 12px; }
-  .svc-admin-card { grid-template-columns: 1fr; }
-  .color-row { flex-direction: column; }
-  .topbar { padding: 0 14px; }
-  .topbar-logo { font-size: 16px; letter-spacing: 2px; }
-  /* Hide some topbar items on mobile */
-  .topbar .user-chip { display: none; }
-  .topbar #saveStatus { display: none; }
-  .topbar #liveBadge { display: none; }
-  .view-site-btn { padding: 7px 12px; font-size: 10px; }
-  .logout-btn { padding: 6px 10px; font-size: 10px; }
-  /* Page header */
-  .page-title { font-size: 24px; }
-  /* Cards */
-  .card { padding: 16px; }
-  .stat-card { padding: 14px; }
-  .stat-num { font-size: 30px; }
-  /* Tables — horizontal scroll */
-  .appt-table { font-size: 12px; }
-  .appt-table th, .appt-table td { padding: 8px 10px; }
-  /* Catalogue rows — stack on mobile */
-  #catalogueAdminList > div { 
-    grid-template-columns: 52px 1fr !important; 
-    grid-template-rows: auto auto auto;
-  }
-  /* Popup tab */
-  #tab-popup .grid-2 { grid-template-columns: 1fr; }
-  /* Gallery grid */
-  .gallery-admin-grid { grid-template-columns: repeat(3, 1fr); }
-  /* Buttons */
-  .btn { padding: 9px 14px; font-size: 10px; }
-  /* Login box */
-  .login-box { padding: 16px; }
+/* ══════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════ */
+.toast{
+  position:fixed;bottom:20px;right:20px;z-index:9999;
+  background:var(--bg3);border:1px solid var(--border);
+  padding:13px 18px;font-size:13px;border-radius:10px;
+  transform:translateY(80px);opacity:0;transition:all 0.4s;pointer-events:none;
+  display:flex;align-items:center;gap:10px;max-width:320px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{border-color:rgba(45,138,78,0.4);}
+.toast.error{border-color:rgba(196,64,74,0.4);}
+
+/* ══════════════════════════════════════════
+   IMAGE UPLOAD
+══════════════════════════════════════════ */
+.img-upload-zone{
+  border:2px dashed rgba(201,169,110,0.2);border-radius:10px;
+  padding:28px;text-align:center;cursor:pointer;transition:all 0.3s;position:relative;
+}
+.img-upload-zone:hover{border-color:rgba(201,169,110,0.45);background:rgba(201,169,110,0.03);}
+.img-upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.upload-icon{font-size:28px;margin-bottom:8px;color:var(--muted);}
+.upload-text{font-size:12px;color:var(--muted);}
+.upload-text strong{color:var(--gold);}
+.img-preview{width:100%;max-height:200px;object-fit:cover;display:none;margin-top:12px;border-radius:8px;border:1px solid var(--border);}
+.img-preview.show{display:block;}
+.upload-progress{height:3px;background:var(--border);margin-top:10px;border-radius:3px;display:none;}
+.upload-progress-bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--accent));border-radius:3px;width:0%;transition:width 0.3s;}
+
+/* ══════════════════════════════════════════
+   APPOINTMENTS TABLE
+══════════════════════════════════════════ */
+.appt-table{width:100%;border-collapse:collapse;}
+.appt-table th{
+  font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);
+  padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);
+}
+.appt-table td{padding:11px 14px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle;}
+.appt-table tr:hover td{background:rgba(255,255,255,0.02);}
+.status-badge{padding:3px 10px;font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:600;border-radius:20px;}
+.status-pending{background:rgba(201,160,32,0.12);color:#c9a020;border:1px solid rgba(201,160,32,0.2);}
+.status-confirmed{background:rgba(45,138,78,0.12);color:#6dbd8a;border:1px solid rgba(45,138,78,0.2);}
+.status-done{background:rgba(100,100,120,0.12);color:#8888a8;border:1px solid rgba(100,100,120,0.2);}
+.status-cancelled{background:rgba(196,64,74,0.1);color:#e07070;border:1px solid rgba(196,64,74,0.2);}
+
+/* ══════════════════════════════════════════
+   THEME CARDS — 6 beautiful presets
+══════════════════════════════════════════ */
+.theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.theme-card{
+  border:2px solid var(--border);border-radius:14px;overflow:hidden;
+  cursor:pointer;transition:all 0.3s;position:relative;
+}
+.theme-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.4);}
+.theme-card.selected{border-color:var(--gold);}
+.theme-card.selected::after{
+  content:'✓ Selected';position:absolute;top:10px;right:10px;
+  background:var(--gold);color:#0a0608;font-size:9px;font-weight:700;
+  letter-spacing:1px;padding:3px 9px;border-radius:20px;
+}
+.theme-preview{height:100px;position:relative;overflow:hidden;}
+.theme-preview-bg{position:absolute;inset:0;}
+.theme-preview-dots{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:14px;}
+.theme-preview-line{height:6px;border-radius:4px;margin-bottom:6px;}
+.theme-preview-line:nth-child(2){width:60%;}
+.theme-preview-line:nth-child(3){width:40%;opacity:0.6;}
+.theme-preview-pill{display:inline-block;height:16px;width:50px;border-radius:20px;margin-top:6px;}
+.theme-meta{padding:12px 14px;background:rgba(0,0,0,0.2);}
+.theme-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.theme-tag{font-size:10px;color:var(--muted);}
+.theme-swatches{display:flex;gap:4px;margin-top:8px;}
+.theme-swatch{width:18px;height:18px;border-radius:50%;border:1px solid rgba(255,255,255,0.1);}
+
+/* ══════════════════════════════════════════
+   CATALOGUE ADMIN
+══════════════════════════════════════════ */
+.cat-row{
+  display:grid;gap:10px;align-items:center;
+  padding:12px 0;border-bottom:1px solid var(--border);
+  grid-template-columns:52px 1fr 1fr 80px 100px auto;
+}
+.cat-row:last-child{border-bottom:none;}
+.cat-img-box{
+  width:52px;height:52px;border-radius:8px;overflow:hidden;
+  position:relative;cursor:pointer;flex-shrink:0;
+  background:rgba(255,255,255,0.04);border:1px dashed var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.cat-img-box img{width:100%;height:100%;object-fit:cover;}
+.cat-img-overlay{
+  position:absolute;inset:0;background:rgba(0,0,0,0.6);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity 0.2s;font-size:14px;border-radius:8px;
+}
+.cat-img-box:hover .cat-img-overlay{opacity:1;}
+.cat-inline-input{
+  background:rgba(255,255,255,0.04);border:1px solid var(--border);
+  color:var(--text);padding:7px 10px;font-family:'Inter',sans-serif;font-size:12px;
+  border-radius:6px;outline:none;width:100%;transition:border-color 0.2s;
+}
+.cat-inline-input:focus{border-color:rgba(201,169,110,0.4);}
+
+/* ══════════════════════════════════════════
+   GALLERY
+══════════════════════════════════════════ */
+.gallery-admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;}
+.gallery-thumb{
+  position:relative;aspect-ratio:1;background:var(--bg3);
+  border:1px solid var(--border);border-radius:10px;overflow:hidden;
+}
+.gallery-thumb img{width:100%;height:100%;object-fit:cover;}
+.gallery-thumb-del{
+  position:absolute;top:6px;right:6px;background:rgba(196,64,74,0.85);
+  color:#fff;border:none;width:24px;height:24px;border-radius:6px;
+  cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity 0.2s;
+}
+.gallery-thumb:hover .gallery-thumb-del{opacity:1;}
+
+/* ══════════════════════════════════════════
+   SERVICES ADMIN CARDS
+══════════════════════════════════════════ */
+.svc-admin-card{
+  background:var(--bg3);border:1px solid var(--border);border-radius:12px;
+  padding:20px;margin-bottom:12px;
+  display:grid;grid-template-columns:48px 1fr 1fr;gap:16px;align-items:start;
+}
+.svc-admin-num{
+  font-family:'Playfair Display',serif;font-size:32px;font-weight:700;
+  color:var(--gold);opacity:0.25;line-height:1;padding-top:4px;
 }
 
-@media (max-width: 400px) {
-  .content { padding: 10px 8px; }
-  .topbar { height: 52px; }
-  .gallery-admin-grid { grid-template-columns: repeat(2, 1fr); }
+/* ══════════════════════════════════════════
+   TOGGLE
+══════════════════════════════════════════ */
+.toggle-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.04);
 }
+.toggle-label{font-size:13px;color:var(--text);}
+.toggle-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:rgba(255,255,255,0.1);border-radius:24px;cursor:pointer;transition:0.3s;}
+.toggle-slider::after{content:'';position:absolute;left:4px;top:4px;width:16px;height:16px;background:var(--text);border-radius:50%;transition:0.3s;}
+.toggle input:checked+.toggle-slider{background:var(--gold);}
+.toggle input:checked+.toggle-slider::after{transform:translateX(20px);}
 
-/* Mobile Nav Tabs (bottom) */
-.mobile-bottom-nav {
-  display: none; position: fixed; bottom: 0; left: 0; right: 0;
-  background: var(--sidebar); border-top: 1px solid var(--border);
-  z-index: 200; padding: 6px 0 8px;
-  safe-area-inset-bottom: env(safe-area-inset-bottom);
+/* ══════════════════════════════════════════
+   MISC
+══════════════════════════════════════════ */
+.divider{height:1px;background:var(--border);margin:20px 0;}
+.empty-state{text-align:center;padding:50px 20px;color:var(--muted);}
+.empty-icon{font-size:36px;margin-bottom:12px;}
+.spinner{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;display:inline-block;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.color-row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;}
+.color-field{display:flex;flex-direction:column;gap:6px;}
+.color-field label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+.color-field input[type=color]{width:48px;height:40px;border:1px solid var(--border);background:none;cursor:pointer;padding:2px;border-radius:6px;}
+.quick-action-btn{
+  display:flex;align-items:center;gap:10px;padding:12px 16px;
+  background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;
+  font-size:13px;color:var(--muted);cursor:pointer;transition:all 0.2s;width:100%;margin-bottom:8px;
+  font-family:'Inter',sans-serif;
 }
-.mob-nav-items { display: flex; justify-content: space-around; align-items: flex-end; }
-.mob-nav-item { 
-  display: flex; flex-direction: column; align-items: center; gap: 3px; 
-  cursor: pointer; padding: 5px 8px; min-width: 52px;
-  transition: all 0.2s;
+.quick-action-btn:hover{border-color:rgba(201,169,110,0.35);color:var(--text);background:rgba(201,169,110,0.05);}
+.quick-action-icon{font-size:16px;width:24px;text-align:center;}
+
+/* ══════════════════════════════════════════
+   MOBILE BOTTOM NAV
+══════════════════════════════════════════ */
+.mobile-bottom-nav{
+  display:none;position:fixed;bottom:0;left:0;right:0;
+  background:rgba(15,13,26,0.97);border-top:1px solid var(--border);
+  z-index:300;padding:6px 0 max(8px,env(safe-area-inset-bottom));
+  backdrop-filter:blur(20px);
 }
-.mob-nav-item span:first-child { font-size: 20px; transition: transform 0.2s; }
-.mob-nav-item span:last-child { font-size: 8px; letter-spacing: 0.5px; color: var(--text-muted); text-transform: uppercase; }
-.mob-nav-item.active span:last-child { color: var(--gold); }
-.mob-nav-item.active span:first-child { transform: translateY(-2px); }
-@media (max-width: 768px) {
-  .mobile-bottom-nav { display: block; }
-  #adminApp { padding-bottom: 72px; }
+.mob-nav-items{display:flex;justify-content:space-around;align-items:flex-end;}
+.mob-nav-item{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  cursor:pointer;padding:5px 8px;min-width:52px;transition:all 0.2s;
 }
+.mob-nav-item span:first-child{font-size:20px;transition:transform 0.2s;display:block;}
+.mob-nav-label{font-size:8px;letter-spacing:0.5px;color:var(--muted);text-transform:uppercase;}
+.mob-nav-item.active .mob-nav-label{color:var(--gold);}
+.mob-nav-item.active span:first-child{transform:translateY(-2px);}
 
-/* Divider */
-.divider { height: 1px; background: var(--border); margin: 24px 0; }
-
-/* Empty state */
-.empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
-.empty-icon { font-size: 40px; margin-bottom: 12px; }
-
-/* Loading spinner */
-.spinner { width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; }
-@keyframes spin { to { transform: rotate(360deg); } }
-@keyframes pulse { 0%,100%{opacity:0.5;transform:scale(1);} 50%{opacity:1;transform:scale(1.3);} }
-
-/* Switch toggle */
-.toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
-.toggle-label { font-size: 13px; color: var(--cream); }
-.toggle-sub { font-size: 11px; color: var(--text-muted); }
-.toggle { position: relative; width: 44px; height: 24px; }
-.toggle input { opacity: 0; width: 0; height: 0; }
-.toggle-slider { position: absolute; inset: 0; background: rgba(255,255,255,0.1); border-radius: 24px; cursor: pointer; transition: 0.3s; }
-.toggle-slider::after { content: ''; position: absolute; left: 4px; top: 4px; width: 16px; height: 16px; background: var(--cream); border-radius: 50%; transition: 0.3s; }
-.toggle input:checked + .toggle-slider { background: var(--gold); }
-.toggle input:checked + .toggle-slider::after { transform: translateX(20px); }
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media(max-width:1024px){
+  .theme-grid{grid-template-columns:repeat(2,1fr);}
+  .cat-row{grid-template-columns:52px 1fr 80px auto;}
+}
+@media(max-width:768px){
+  .sidebar{display:none;}
+  .mobile-bottom-nav{display:block;}
+  #adminApp{padding-bottom:70px;}
+  .grid-2,.grid-3{grid-template-columns:1fr;}
+  .content{padding:14px;}
+  .topbar{padding:0 12px;}
+  .topbar .user-chip{display:none;}
+  .topbar .save-status{display:none;}
+  .topbar .topbar-badge{display:none;}
+  .page-title{font-size:22px;}
+  .cat-row{grid-template-columns:48px 1fr auto;grid-template-rows:auto auto;}
+  .cat-row .cat-desc-input,.cat-row .cat-select{grid-column:2/-1;}
+  .svc-admin-card{grid-template-columns:1fr;}
+  .svc-admin-num{display:none;}
+  .theme-grid{grid-template-columns:1fr 1fr;}
+  .appt-table th:nth-child(4),.appt-table td:nth-child(4){display:none;}
+  .color-row{flex-direction:column;}
+}
+@media(max-width:400px){
+  .theme-grid{grid-template-columns:1fr;}
+  .content{padding:10px;}
+}
 </style>
 </head>
 <body>
 
-<!-- ═══ LOGIN SCREEN ═══════════════════════════════════════════ -->
+<!-- ═══ LOGIN ═══════════════════════════════════════════ -->
 <div id="loginScreen">
   <div class="login-box">
-    <div class="login-ornament">
-      <div class="login-logo">W</div>
-    </div>
+    <div class="login-logo-wrap"><div class="login-logo">W</div></div>
     <h1 class="login-title">Admin Panel</h1>
-    <p class="login-sub">WINSOME BEAUTY STUDIO · JAIPUR</p>
-    <div style="width:100%;margin-bottom:12px;">
-      <input id="loginEmail" type="email" placeholder="Email address"
-        style="width:100%;padding:13px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(201,169,110,0.2);color:#f7f2ec;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;margin-bottom:8px;box-sizing:border-box;">
-      <input id="loginPassword" type="password" placeholder="Password"
-        onkeydown="if(event.key==='Enter') window.signInWithEmail()"
-        style="width:100%;padding:13px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(201,169,110,0.2);color:#f7f2ec;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;box-sizing:border-box;">
+    <p class="login-sub">Winsome Beauty Studio · Jaipur</p>
+    <div class="login-card">
+      <input id="loginEmail" type="email" placeholder="Admin email address" class="login-input">
+      <input id="loginPassword" type="password" placeholder="Password" class="login-input"
+        onkeydown="if(event.key==='Enter') window.signInWithEmail()">
+      <button class="btn btn-gold btn-full" onclick="window.signInWithEmail()" style="margin-top:4px;padding:13px 20px;font-size:13px;">
+        🔐 &nbsp;Login with Email
+      </button>
+      <div class="login-divider"><span>or</span></div>
+      <button class="btn btn-outline btn-full" onclick="window.signInWithGoogle()" style="padding:12px 20px;font-size:13px;justify-content:center;">
+        <svg width="18" height="18" viewBox="0 0 24 24" style="flex-shrink:0;">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+        Continue with Google
+      </button>
     </div>
-    <button class="google-btn" onclick="window.signInWithEmail()" style="background:rgba(201,169,110,0.15);border-color:rgba(201,169,110,0.35);margin-bottom:16px;">
-      🔐 Login with Email &amp; Password
-    </button>
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-      <div style="flex:1;height:1px;background:rgba(201,169,110,0.15);"></div>
-      <span style="font-size:10px;color:rgba(247,242,236,0.3);letter-spacing:2px;text-transform:uppercase;">or</span>
-      <div style="flex:1;height:1px;background:rgba(201,169,110,0.15);"></div>
-    </div>
-    <button class="google-btn" onclick="window.signInWithGoogle()">
-      <svg class="google-icon" viewBox="0 0 24 24">
-        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-      </svg>
-      Continue with Google
-    </button>
-    <p class="login-note">🔒 Only authorized admin accounts can access this panel</p>
+    <p class="login-note">🔒 Sirf authorized admins hi access kar sakte hain</p>
   </div>
 </div>
 
-<!-- ═══ ADMIN APP ═══════════════════════════════════════════════ -->
+<!-- ═══ ADMIN APP ════════════════════════════════════════ -->
 <div id="adminApp">
 
-  <!-- Top Bar -->
+  <!-- Topbar -->
   <div class="topbar">
-    <div class="topbar-logo">WIN<span>SOME</span> <span style="font-size:11px;letter-spacing:2px;color:var(--text-muted);font-family:'DM Sans',sans-serif;">ADMIN</span></div>
+    <div class="topbar-logo">WINSOME <small>ADMIN</small></div>
     <div class="topbar-right">
-      <div id="liveBadge" style="display:flex;align-items:center;gap:6px;padding:5px 12px;border:1px solid rgba(45,138,78,0.25);background:rgba(45,138,78,0.08);font-size:10px;letter-spacing:1px;color:#6dbd8a;opacity:0;transition:opacity 0.5s;">
-        <span style="width:7px;height:7px;border-radius:50%;background:#6dbd8a;display:inline-block;animation:pulse 2s ease infinite;"></span>
-        LIVE
+      <div class="topbar-badge" id="liveBadge">
+        <span class="pulse-dot"></span> LIVE
       </div>
-      <div id="saveStatus" style="font-size:11px;color:var(--text-muted);letter-spacing:1px;min-width:100px;text-align:right;"></div>
-      <a href="winsome_beauty_studio.html" target="_blank" class="view-site-btn">View Site ↗</a>
+      <div class="save-status" id="saveStatus"></div>
+      <a href="winsome_beauty_studio.html" target="_blank" class="topbar-btn btn-view">↗ View Site</a>
       <div class="user-chip">
         <img class="user-avatar" id="userAvatar" src="" alt="">
-        <span id="userName" style="font-size:12px;"></span>
+        <span class="user-name" id="userName"></span>
       </div>
-      <button class="logout-btn" onclick="signOut()">Sign Out</button>
+      <button class="topbar-btn btn-signout" onclick="signOut()">Sign Out</button>
     </div>
   </div>
 
@@ -436,14 +490,14 @@ body { background: var(--ink); color: var(--cream); font-family: 'DM Sans', sans
     <div class="sidebar">
       <div class="sidebar-section">Overview</div>
       <div class="nav-item active" onclick="showTab('dashboard')"><span class="nav-icon">📊</span> Dashboard</div>
-      <div class="nav-item" onclick="showTab('appointments')"><span class="nav-icon">📅</span> Appointments <span class="badge red" id="pendingBadge">0</span></div>
+      <div class="nav-item" onclick="showTab('appointments')"><span class="nav-icon">📅</span> Appointments <span class="nav-badge" id="pendingBadge">0</span></div>
 
       <div class="sidebar-section">Content</div>
       <div class="nav-item" onclick="showTab('hero')"><span class="nav-icon">🌟</span> Hero Section</div>
-      <div class="nav-item" onclick="showTab('about')"><span class="nav-icon">💎</span> About Section</div>
+      <div class="nav-item" onclick="showTab('about')"><span class="nav-icon">💎</span> About</div>
       <div class="nav-item" onclick="showTab('services')"><span class="nav-icon">✂️</span> Services</div>
-      <div class="nav-item" onclick="showTab('gallery')"><span class="nav-icon">🖼️</span> Gallery</div>
       <div class="nav-item" onclick="showTab('catalogue')"><span class="nav-icon">📋</span> Catalogue</div>
+      <div class="nav-item" onclick="showTab('gallery')"><span class="nav-icon">🖼️</span> Gallery</div>
       <div class="nav-item" onclick="showTab('contact')"><span class="nav-icon">📞</span> Contact Info</div>
       <div class="nav-item" onclick="showTab('popup')"><span class="nav-icon">🎯</span> Popup Offer</div>
 
@@ -452,26 +506,26 @@ body { background: var(--ink); color: var(--cream); font-family: 'DM Sans', sans
       <div class="nav-item" onclick="showTab('colors')"><span class="nav-icon">🖌️</span> Custom Colors</div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Content -->
     <div class="content">
 
-      <!-- ── DASHBOARD ────────────────────────── -->
+      <!-- ── DASHBOARD ── -->
       <div class="tab active" id="tab-dashboard">
         <div class="page-header">
-          <h1 class="page-title">Good morning, <em id="adminFirstName">Admin</em></h1>
-          <p class="page-sub">Here's what's happening at Winsome Beauty Studio today</p>
+          <h1 class="page-title">Good <em id="timeGreet">morning</em>, <em id="adminFirstName">Admin</em> 👋</h1>
+          <p class="page-sub">Winsome Beauty Studio — Jaipur ka admin panel</p>
         </div>
-        <div class="grid-3" style="margin-bottom:24px;">
+        <div class="grid-3" style="margin-bottom:20px;">
           <div class="stat-card">
             <div class="stat-num" id="dash-total">–</div>
-            <div class="stat-label">Total Appointments</div>
+            <div class="stat-label">Total Bookings</div>
           </div>
           <div class="stat-card">
-            <div class="stat-num" id="dash-pending" style="color:#c9a020;">–</div>
-            <div class="stat-label">Pending Confirmation</div>
+            <div class="stat-num" style="color:#c9a020;" id="dash-pending">–</div>
+            <div class="stat-label">Pending</div>
           </div>
           <div class="stat-card">
-            <div class="stat-num" id="dash-today" style="color:#6dbd8a;">–</div>
+            <div class="stat-num" style="color:#6dbd8a;" id="dash-today">–</div>
             <div class="stat-label">Today's Bookings</div>
           </div>
         </div>
@@ -482,27 +536,26 @@ body { background: var(--ink); color: var(--cream); font-family: 'DM Sans', sans
           </div>
           <div class="card">
             <div class="card-title">Quick Actions</div>
-            <div style="display:flex;flex-direction:column;gap:10px;">
-              <button class="btn btn-outline" onclick="showTab('hero')">✏️ &nbsp;Edit Hero Text</button>
-              <button class="btn btn-outline" onclick="showTab('gallery')">🖼️ &nbsp;Add Gallery Photos</button>
-              <button class="btn btn-outline" onclick="showTab('services')">✂️ &nbsp;Update Services</button>
-              <button class="btn btn-outline" onclick="showTab('themes')">🎨 &nbsp;Change Theme</button>
-              <button class="btn btn-outline" onclick="showTab('appointments')">📅 &nbsp;View All Appointments</button>
-            </div>
+            <button class="quick-action-btn" onclick="showTab('hero')"><span class="quick-action-icon">✏️</span> Hero Text Edit Karo</button>
+            <button class="quick-action-btn" onclick="showTab('gallery')"><span class="quick-action-icon">🖼️</span> Gallery Photo Add Karo</button>
+            <button class="quick-action-btn" onclick="showTab('catalogue')"><span class="quick-action-icon">📋</span> Service/Price Update Karo</button>
+            <button class="quick-action-btn" onclick="showTab('themes')"><span class="quick-action-icon">🎨</span> Website Theme Change Karo</button>
+            <button class="quick-action-btn" onclick="showTab('popup')"><span class="quick-action-icon">🎯</span> Offer Popup On/Off Karo</button>
+            <button class="quick-action-btn" onclick="showTab('appointments')"><span class="quick-action-icon">📅</span> Sab Appointments Dekho</button>
           </div>
         </div>
       </div>
 
-      <!-- ── APPOINTMENTS ─────────────────────── -->
+      <!-- ── APPOINTMENTS ── -->
       <div class="tab" id="tab-appointments">
         <div class="page-header">
-          <h1 class="page-title">Appointments</h1>
-          <p class="page-sub">Manage all client bookings from here</p>
+          <h1 class="page-title">Client <em>Appointments</em></h1>
+          <p class="page-sub">Sab bookings yahan manage karo</p>
         </div>
         <div class="card" style="padding:0;overflow:hidden;">
-          <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:center;">
-            <select id="apptFilter" onchange="loadAppointments()" style="background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--cream);padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:12px;">
-              <option value="all">All Appointments</option>
+          <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <select id="apptFilter" onchange="loadAppointments()" class="cat-inline-input" style="width:160px;">
+              <option value="all">Sab Appointments</option>
               <option value="pending">Pending</option>
               <option value="confirmed">Confirmed</option>
               <option value="done">Done</option>
@@ -519,34 +572,34 @@ body { background: var(--ink); color: var(--cream); font-family: 'DM Sans', sans
                   <th>Service</th>
                   <th>Date</th>
                   <th>Status</th>
-                  <th>Actions</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody id="apptTableBody">
-                <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted);"><div class="spinner"></div></td></tr>
+                <tr><td colspan="6" style="text-align:center;padding:40px;"><div class="spinner"></div></td></tr>
               </tbody>
             </table>
           </div>
         </div>
       </div>
 
-      <!-- ── HERO SECTION ─────────────────────── -->
+      <!-- ── HERO SECTION ── -->
       <div class="tab" id="tab-hero">
         <div class="page-header">
           <h1 class="page-title">Hero <em>Section</em></h1>
-          <p class="page-sub">Edit the main heading, subtext, stats, and background image</p>
+          <p class="page-sub">Main heading, subtext, stats aur background image</p>
         </div>
         <div class="grid-2">
           <div>
-            <div class="card" style="margin-bottom:20px;">
+            <div class="card" style="margin-bottom:18px;">
               <div class="card-title">Heading & Text</div>
-              <div class="field"><label>Eye Brow Text</label><input id="h-eyebrow" placeholder="Unisex Salon · Jaipur, Rajasthan"></div>
+              <div class="field"><label>Eyebrow Text</label><input id="h-eyebrow" placeholder="Unisex Salon · Jaipur, Rajasthan"></div>
               <div class="field"><label>Main Heading (HTML allowed)</label><textarea id="h-heading" rows="3" placeholder="Where beauty&#10;&lt;em&gt;finds its soul&lt;/em&gt;"></textarea></div>
-              <div class="field"><label>Subheading</label><textarea id="h-sub" rows="3" placeholder="Jaipur's most-loved beauty destination..."></textarea></div>
+              <div class="field"><label>Subheading</label><textarea id="h-sub" rows="3"></textarea></div>
             </div>
             <div class="card">
-              <div class="card-title">Stats</div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div class="card-title">Stats (3 boxes)</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
                 <div class="field"><label>Stat 1 Number</label><input id="h-s1n" placeholder="1000+"></div>
                 <div class="field"><label>Stat 1 Label</label><input id="h-s1l" placeholder="Happy Clients"></div>
                 <div class="field"><label>Stat 2 Number</label><input id="h-s2n" placeholder="5.0★"></div>
@@ -560,25 +613,25 @@ body { background: var(--ink); color: var(--cream); font-family: 'DM Sans', sans
             <div class="card">
               <div class="card-title">Background Image</div>
               <div class="img-upload-zone" id="heroBgZone">
-                <input type="file" accept="image/*" onchange="uploadImage(this, 'heroBgUrl', 'heroBgPreview', 'heroBgProgress')">
+                <input type="file" accept="image/*" onchange="uploadImage(this,'heroBgUrl','heroBgPreview','heroBgProgress')">
                 <div class="upload-icon">🖼️</div>
-                <div class="upload-text">Drop image or <strong>click to upload</strong><br><span style="font-size:10px;">Recommended: 1920×1080px JPG/WEBP</span></div>
+                <div class="upload-text">Drop image ya <strong>click karo</strong><br><span style="font-size:10px;">Recommended: 1920×1080 JPG/WEBP</span></div>
               </div>
               <div class="upload-progress" id="heroBgProgress"><div class="upload-progress-bar" id="heroBgProgressBar"></div></div>
               <img class="img-preview" id="heroBgPreview" alt="Hero BG">
             </div>
           </div>
         </div>
-        <div style="margin-top:20px;">
+        <div style="margin-top:18px;">
           <button class="btn btn-gold" onclick="saveHero()">💾 &nbsp;Save Hero Section</button>
         </div>
       </div>
 
-      <!-- ── ABOUT SECTION ─────────────────────── -->
+      <!-- ── ABOUT ── -->
       <div class="tab" id="tab-about">
         <div class="page-header">
           <h1 class="page-title">About <em>Section</em></h1>
-          <p class="page-sub">Edit your story and upload an about image</p>
+          <p class="page-sub">Apni story aur salon ka photo</p>
         </div>
         <div class="grid-2">
           <div class="card">
@@ -590,11 +643,11 @@ body { background: var(--ink); color: var(--cream); font-family: 'DM Sans', sans
             <button class="btn btn-gold" onclick="saveAbout()">💾 &nbsp;Save About</button>
           </div>
           <div class="card">
-            <div class="card-title">About Image</div>
+            <div class="card-title">Salon Photo</div>
             <div class="img-upload-zone">
-              <input type="file" accept="image/*" onchange="uploadImage(this, 'aboutImgUrl', 'aboutImgPreview', 'aboutImgProgress')">
+              <input type="file" accept="image/*" onchange="uploadImage(this,'aboutImgUrl','aboutImgPreview','aboutImgProgress')">
               <div class="upload-icon">📷</div>
-              <div class="upload-text">Upload about/salon photo<br><span style="font-size:10px;">Recommended: 3:4 portrait ratio</span></div>
+              <div class="upload-text">Salon/About photo upload karo<br><span style="font-size:10px;">Best: 3:4 portrait ratio</span></div>
             </div>
             <div class="upload-progress" id="aboutImgProgress"><div class="upload-progress-bar" id="aboutImgProgressBar"></div></div>
             <img class="img-preview" id="aboutImgPreview" alt="About">
@@ -602,74 +655,27 @@ body { background: var(--ink); color: var(--cream); font-family: 'DM Sans', sans
         </div>
       </div>
 
-      <!-- ── SERVICES ──────────────────────────── -->
+      <!-- ── SERVICES ── -->
       <div class="tab" id="tab-services">
         <div class="page-header">
           <h1 class="page-title">Our <em>Services</em></h1>
-          <p class="page-sub">Edit service names, descriptions and prices</p>
+          <p class="page-sub">Service name, description aur price edit karo (6 main services)</p>
         </div>
         <div id="servicesAdmin"></div>
         <button class="btn btn-gold" style="margin-top:16px;" onclick="saveServices()">💾 &nbsp;Save All Services</button>
       </div>
 
-      <!-- ── GALLERY ───────────────────────────── -->
-      <div class="tab" id="tab-gallery">
-        <div class="page-header">
-          <h1 class="page-title">Gallery <em>Photos</em></h1>
-          <p class="page-sub">Upload photos that appear in the scrolling gallery strip</p>
-        </div>
-        <div class="card" style="margin-bottom:20px;">
-          <div class="card-title">Upload New Photo</div>
-          <div class="img-upload-zone" id="galleryUploadZone">
-            <input type="file" accept="image/*" multiple onchange="uploadGalleryImages(this)">
-            <div class="upload-icon">🖼️</div>
-            <div class="upload-text">Select multiple photos at once<br><span style="font-size:10px;">JPG, PNG, WEBP · Max 5MB each</span></div>
-          </div>
-          <div class="upload-progress" id="galProgress" style="margin-top:10px;"><div class="upload-progress-bar" id="galProgressBar"></div></div>
-        </div>
-        <div class="card">
-          <div class="card-title">Gallery Photos <span style="color:var(--text-muted);font-size:10px;" id="galCount"></span></div>
-          <div class="gallery-admin-grid" id="galleryAdminGrid">
-            <div class="empty-state"><div class="spinner"></div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── CONTACT INFO ──────────────────────── -->
-      <div class="tab" id="tab-contact">
-        <div class="page-header">
-          <h1 class="page-title">Contact <em>Info</em></h1>
-          <p class="page-sub">Update address, phone, hours and social links</p>
-        </div>
-        <div class="grid-2">
-          <div class="card">
-            <div class="card-title">Basic Info</div>
-            <div class="field"><label>Phone Number</label><input id="c-phone" placeholder="+91 98765 43210"></div>
-            <div class="field"><label>WhatsApp Number</label><input id="c-whatsapp" placeholder="+91 98765 43210"></div>
-            <div class="field"><label>Address</label><textarea id="c-address" rows="2" placeholder="Shop No. X, XYZ Market, Jaipur, Rajasthan"></textarea></div>
-            <div class="field"><label>Opening Hours</label><input id="c-hours" placeholder="Mon – Sun · 10:00 AM – 8:00 PM"></div>
-            <div class="field"><label>Google Maps Link</label><input id="c-maps" placeholder="https://maps.app.goo.gl/..."></div>
-          </div>
-          <div class="card">
-            <div class="card-title">Social Links</div>
-            <div class="field"><label>Instagram URL</label><input id="c-instagram" placeholder="https://instagram.com/..."></div>
-            <div class="field"><label>Facebook URL</label><input id="c-facebook" placeholder="https://facebook.com/..."></div>
-          </div>
-        </div>
-        <div style="margin-top:20px;">
-          <button class="btn btn-gold" onclick="saveContact()">💾 &nbsp;Save Contact Info</button>
-        </div>
-      </div>
-
-      <!-- ── CATALOGUE ─────────────────────────── -->
+      <!-- ── CATALOGUE ── -->
       <div class="tab" id="tab-catalogue">
         <div class="page-header">
           <h1 class="page-title">Services <em>Catalogue</em></h1>
-          <p class="page-sub">Manage all service names, descriptions, prices & categories shown on website</p>
+          <p class="page-sub">Website pe dikhne wali sabhi services — naam, description, price aur image</p>
         </div>
-        <div class="card" style="margin-bottom:20px;">
-          <div class="card-title">Add New Service</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+
+        <!-- Add New -->
+        <div class="card" style="margin-bottom:18px;">
+          <div class="card-title">+ Naya Service Add Karo</div>
+          <div class="grid-2" style="gap:10px;margin-bottom:10px;">
             <div class="field"><label>Service Name</label><input id="cat-new-name" placeholder="e.g. Full Body Waxing"></div>
             <div class="field"><label>Category</label>
               <select id="cat-new-cat">
@@ -682,160 +688,187 @@ body { background: var(--ink); color: var(--cream); font-family: 'DM Sans', sans
                 <option value="bridal">Bridal</option>
               </select>
             </div>
-            <div class="field"><label>Description</label><input id="cat-new-desc" placeholder="Short description of the service"></div>
+            <div class="field"><label>Description</label><input id="cat-new-desc" placeholder="Short description"></div>
             <div class="field"><label>Price (e.g. ₹499)</label><input id="cat-new-price" placeholder="₹499"></div>
           </div>
-          <div class="field" style="margin-top:8px;">
-            <label>Service Image (Optional)</label>
-            <div class="img-upload-zone" id="catNewImgZone" style="padding:16px;display:flex;align-items:center;gap:16px;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div class="img-upload-zone" style="flex:1;padding:12px;display:flex;align-items:center;gap:12px;">
               <input type="file" accept="image/*" onchange="previewNewCatImage(this)">
-              <div style="text-align:center;flex:1;">
-                <div class="upload-icon" style="font-size:22px;margin-bottom:4px;">📷</div>
-                <div class="upload-text" style="font-size:11px;">Click to upload image</div>
-              </div>
-              <img id="catNewImgPreview" style="width:70px;height:70px;object-fit:cover;border:1px solid var(--border);display:none;" alt="">
+              <span style="font-size:22px;">📷</span>
+              <span style="font-size:11px;color:var(--muted);">Image (optional)</span>
+              <img id="catNewImgPreview" style="width:50px;height:50px;object-fit:cover;border-radius:6px;display:none;" alt="">
             </div>
+            <button class="btn btn-gold" onclick="addCatalogueItem()">+ &nbsp;Add</button>
           </div>
-          <button class="btn btn-gold" style="margin-top:8px;" onclick="addCatalogueItem()">+ &nbsp;Add Service</button>
         </div>
+
+        <!-- List -->
         <div class="card">
-          <div class="card-title">All Services <span style="color:var(--text-muted);font-size:10px;" id="catCount"></span></div>
-          <div style="margin-bottom:12px;display:flex;gap:8px;flex-wrap:wrap;" id="catFilterBtns">
+          <div class="card-title">
+            All Services <span style="color:var(--muted);font-size:10px;" id="catCount"></span>
+            <button class="btn btn-gold btn-sm" onclick="saveCatalogue()">💾 Save to Website</button>
+          </div>
+          <!-- Filter tabs -->
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;" id="catFilterBtns">
             <button class="btn btn-outline btn-sm" onclick="filterCatAdmin('all',this)" style="border-color:var(--gold);color:var(--gold);">All</button>
-            <button class="btn btn-outline btn-sm" onclick="filterCatAdmin('hair',this)">Hair</button>
-            <button class="btn btn-outline btn-sm" onclick="filterCatAdmin('face',this)">Face &amp; Skin</button>
-            <button class="btn btn-outline btn-sm" onclick="filterCatAdmin('waxing',this)">Waxing</button>
-            <button class="btn btn-outline btn-sm" onclick="filterCatAdmin('threading',this)">Threading</button>
-            <button class="btn btn-outline btn-sm" onclick="filterCatAdmin('nails',this)">Nails</button>
-            <button class="btn btn-outline btn-sm" onclick="filterCatAdmin('body',this)">Body</button>
-            <button class="btn btn-outline btn-sm" onclick="filterCatAdmin('bridal',this)">Bridal</button>
+            <button class="btn btn-outline btn-sm" onclick="filterCatAdmin('hair',this)">💇 Hair</button>
+            <button class="btn btn-outline btn-sm" onclick="filterCatAdmin('face',this)">✨ Face</button>
+            <button class="btn btn-outline btn-sm" onclick="filterCatAdmin('waxing',this)">🪒 Waxing</button>
+            <button class="btn btn-outline btn-sm" onclick="filterCatAdmin('threading',this)">🧵 Threading</button>
+            <button class="btn btn-outline btn-sm" onclick="filterCatAdmin('nails',this)">💅 Nails</button>
+            <button class="btn btn-outline btn-sm" onclick="filterCatAdmin('body',this)">💆 Body</button>
+            <button class="btn btn-outline btn-sm" onclick="filterCatAdmin('bridal',this)">👰 Bridal</button>
           </div>
           <div id="catalogueAdminList"><div class="empty-state"><div class="spinner"></div></div></div>
-          <div style="margin-top:20px;">
-            <button class="btn btn-gold" onclick="saveCatalogue()">💾 &nbsp;Save Catalogue to Website</button>
+        </div>
+      </div>
+
+      <!-- ── GALLERY ── -->
+      <div class="tab" id="tab-gallery">
+        <div class="page-header">
+          <h1 class="page-title">Gallery <em>Photos</em></h1>
+          <p class="page-sub">Scrolling gallery mein dikhne wale photos</p>
+        </div>
+        <div class="card" style="margin-bottom:18px;">
+          <div class="card-title">New Photo Upload Karo</div>
+          <div class="img-upload-zone" id="galleryUploadZone">
+            <input type="file" accept="image/*" multiple onchange="uploadGalleryImages(this)">
+            <div class="upload-icon">🖼️</div>
+            <div class="upload-text">Ek saath multiple photos select karo<br><span style="font-size:10px;">JPG, PNG, WEBP · Max 5MB each</span></div>
           </div>
-        </div>
-      </div>
-
-      <!-- ── THEMES ────────────────────────────── -->
-      <div class="tab" id="tab-themes">
-        <div class="page-header">
-          <h1 class="page-title">Website <em>Themes</em></h1>
-          <p class="page-sub">Choose a preset theme — applies instantly to your website</p>
-        </div>
-        <div class="theme-grid" id="themeGrid"></div>
-        <div style="margin-top:24px;">
-          <button class="btn btn-gold" onclick="applySelectedTheme()">✨ &nbsp;Apply Selected Theme</button>
-        </div>
-      </div>
-
-      <!-- ── CUSTOM COLORS ─────────────────────── -->
-      <div class="tab" id="tab-colors">
-        <div class="page-header">
-          <h1 class="page-title">Custom <em>Colors</em></h1>
-          <p class="page-sub">Fine-tune individual colors to create your own unique look</p>
+          <div class="upload-progress" id="galProgress" style="margin-top:10px;"><div class="upload-progress-bar" id="galProgressBar"></div></div>
         </div>
         <div class="card">
-          <div class="card-title">Color Palette</div>
-          <div class="color-row" style="margin-bottom:24px;">
-            <div class="color-field"><label>Background (Ink)</label><input type="color" id="col-ink" value="#0a0608"></div>
-            <div class="color-field"><label>Text (Cream)</label><input type="color" id="col-cream" value="#f7f2ec"></div>
-            <div class="color-field"><label>Primary Gold</label><input type="color" id="col-gold" value="#c9a96e"></div>
-            <div class="color-field"><label>Gold Light</label><input type="color" id="col-goldlight" value="#e8d5b0"></div>
-            <div class="color-field"><label>Accent (Plum)</label><input type="color" id="col-plum" value="#3d1c3a"></div>
-            <div class="color-field"><label>Rose</label><input type="color" id="col-rose" value="#c4607a"></div>
-          </div>
-          <div style="display:flex;gap:12px;">
-            <button class="btn btn-gold" onclick="saveCustomColors()">💾 &nbsp;Save Colors</button>
-            <button class="btn btn-outline" onclick="previewColors()">👁 &nbsp;Live Preview</button>
-            <button class="btn btn-outline" onclick="resetColors()">↺ &nbsp;Reset to Default</button>
-          </div>
-        </div>
-        <div class="card" style="margin-top:20px;">
-          <div class="card-title">Color Preview</div>
-          <div id="colorPreview" style="padding:24px;display:grid;grid-template-columns:repeat(6,1fr);gap:12px;">
+          <div class="card-title">Gallery Photos <span style="color:var(--muted);font-size:10px;" id="galCount"></span></div>
+          <div class="gallery-admin-grid" id="galleryAdminGrid">
+            <div class="empty-state" style="grid-column:1/-1;"><div class="spinner"></div></div>
           </div>
         </div>
       </div>
 
-      <!-- ── POPUP OFFER TAB ─────────────────────── -->
+      <!-- ── CONTACT ── -->
+      <div class="tab" id="tab-contact">
+        <div class="page-header">
+          <h1 class="page-title">Contact <em>Info</em></h1>
+          <p class="page-sub">Address, phone, hours aur social links update karo</p>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">Basic Info</div>
+            <div class="field"><label>Phone Number</label><input id="c-phone" placeholder="+91 98765 43210"></div>
+            <div class="field"><label>WhatsApp Number</label><input id="c-whatsapp" placeholder="+91 98765 43210"></div>
+            <div class="field"><label>Address</label><textarea id="c-address" rows="2"></textarea></div>
+            <div class="field"><label>Opening Hours</label><input id="c-hours" placeholder="Mon – Sun · 10:00 AM – 8:00 PM"></div>
+            <div class="field"><label>Google Maps Link</label><input id="c-maps" placeholder="https://maps.app.goo.gl/..."></div>
+            <button class="btn btn-gold" onclick="saveContact()">💾 &nbsp;Save Contact Info</button>
+          </div>
+          <div class="card">
+            <div class="card-title">Social Media Links</div>
+            <div class="field"><label>📸 Instagram URL</label><input id="c-instagram" placeholder="https://instagram.com/..."></div>
+            <div class="field"><label>👤 Facebook URL</label><input id="c-facebook" placeholder="https://facebook.com/..."></div>
+            <div style="margin-top:20px;padding:16px;background:rgba(201,169,110,0.05);border:1px solid var(--border);border-radius:10px;">
+              <div style="font-size:11px;color:var(--gold);letter-spacing:1px;margin-bottom:8px;">💡 TIP</div>
+              <div style="font-size:12px;color:var(--muted);line-height:1.6;">WhatsApp number se website ka "Book via WhatsApp" button aur footer ka number automatically update hota hai.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── POPUP OFFER ── -->
       <div class="tab" id="tab-popup">
         <div class="page-header">
           <h1 class="page-title">Popup <em>Offer</em></h1>
-          <p class="page-sub">Customer website par offer popup control karein — on/off aur image upload</p>
+          <p class="page-sub">Customer site pe offer popup control karo</p>
         </div>
-
-        <div class="grid-2" style="gap:20px;">
-          <!-- Left: Controls -->
+        <div class="grid-2">
           <div>
-            <div class="card" style="margin-bottom:20px;">
-              <div class="card-title">Popup Status</div>
+            <div class="card" style="margin-bottom:18px;">
+              <div class="card-title">Popup Control</div>
               <div class="toggle-row">
                 <div>
                   <div class="toggle-label">Popup On/Off</div>
-                  <div class="toggle-sub">Enable karne par website visitors ko popup dikhega</div>
+                  <div class="toggle-sub">On karne par visitors ko popup dikhega</div>
                 </div>
                 <label class="toggle">
                   <input type="checkbox" id="popupEnabled" onchange="previewPopupStatus()">
                   <span class="toggle-slider"></span>
                 </label>
               </div>
-              <div style="margin-top:20px;" id="popupStatusMsg" style="font-size:12px;"></div>
+              <div style="margin-top:14px;" id="popupStatusMsg"></div>
             </div>
-
-            <div class="card" style="margin-bottom:20px;">
-              <div class="card-title">Popup Text (Optional)</div>
-              <div class="field">
-                <label>Heading</label>
-                <input id="popup-heading" placeholder="e.g. Special Diwali Offer 🎉">
-              </div>
-              <div class="field">
-                <label>Subtext</label>
-                <input id="popup-sub" placeholder="e.g. 20% off on all services this week!">
-              </div>
-              <div class="field">
-                <label>Button Text</label>
-                <input id="popup-btn" placeholder="e.g. Book Now →">
-              </div>
+            <div class="card" style="margin-bottom:18px;">
+              <div class="card-title">Popup Text</div>
+              <div class="field"><label>Heading</label><input id="popup-heading" placeholder="e.g. Diwali Special Offer 🎉" oninput="updatePopupPreview()"></div>
+              <div class="field"><label>Subtext</label><input id="popup-sub" placeholder="e.g. 20% off on all services!" oninput="updatePopupPreview()"></div>
+              <div class="field"><label>Button Text</label><input id="popup-btn" placeholder="e.g. Book Now →" oninput="updatePopupPreview()"></div>
             </div>
-
-            <button class="btn btn-gold" style="width:100%;" onclick="savePopup()">
-              💾 &nbsp;Save & Apply to Website
-            </button>
+            <button class="btn btn-gold btn-full" onclick="savePopup()">💾 &nbsp;Save & Apply to Website</button>
           </div>
-
-          <!-- Right: Image Upload -->
           <div>
-            <div class="card">
+            <div class="card" style="margin-bottom:18px;">
               <div class="card-title">Popup Image</div>
-              <p style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">Offer ka photo ya banner upload karo — yahi popup mein dikhega</p>
-
               <div class="img-upload-zone" id="popupUploadZone">
                 <input type="file" accept="image/*" onchange="uploadPopupImage(this)">
-                <div class="upload-icon">🖼️</div>
-                <div class="upload-text">Click to upload offer image<br><strong>JPG, PNG, WEBP · Max 5MB</strong></div>
+                <div class="upload-icon">🎨</div>
+                <div class="upload-text">Offer ka banner/image upload karo<br><strong>JPG, PNG, WEBP · Max 5MB</strong></div>
               </div>
-              <div class="upload-progress" id="popupUploadProgress">
-                <div class="upload-progress-bar" id="popupUploadBar"></div>
-              </div>
+              <div class="upload-progress" id="popupUploadProgress"><div class="upload-progress-bar" id="popupUploadBar"></div></div>
               <img id="popupImgPreview" class="img-preview" alt="Popup preview">
-
-              <div style="margin-top:12px;display:flex;gap:10px;">
-                <button class="btn btn-outline btn-sm" onclick="removePopupImage()">🗑️ Remove Image</button>
+              <div style="margin-top:10px;">
+                <button class="btn btn-danger btn-sm" onclick="removePopupImage()">🗑️ Image Hatao</button>
               </div>
             </div>
-
-            <!-- Live preview box -->
-            <div class="card" style="margin-top:20px;">
-              <div class="card-title">Preview</div>
-              <div id="popupAdminPreview" style="background:#0a0608;border:1px solid rgba(201,169,110,0.2);padding:20px;text-align:center;min-height:120px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;">
-                <div style="font-size:11px;color:var(--text-muted);letter-spacing:2px;">POPUP PREVIEW</div>
-                <div id="previewHeading" style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream);"></div>
-                <div id="previewSub" style="font-size:12px;color:rgba(247,242,236,0.6);"></div>
-                <div id="previewBtn" style="background:var(--gold);color:#0a0608;padding:8px 20px;font-size:10px;letter-spacing:2px;margin-top:6px;display:none;"></div>
+            <div class="card">
+              <div class="card-title">Live Preview</div>
+              <div id="popupAdminPreview" style="background:#0a0608;border:1px solid rgba(201,169,110,0.2);border-radius:10px;padding:20px;text-align:center;min-height:100px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;">
+                <div style="font-size:10px;color:var(--muted);letter-spacing:2px;">PREVIEW</div>
+                <div id="previewHeading" style="font-family:'Playfair Display',serif;font-size:20px;color:var(--text);"></div>
+                <div id="previewSub" style="font-size:12px;color:var(--muted);"></div>
+                <div id="previewBtn" style="background:var(--gold);color:#0a0608;padding:7px 18px;font-size:10px;letter-spacing:1px;border-radius:6px;margin-top:4px;display:none;font-weight:600;"></div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- ── THEMES ── -->
+      <div class="tab" id="tab-themes">
+        <div class="page-header">
+          <h1 class="page-title">Website <em>Themes</em></h1>
+          <p class="page-sub">6 beautiful preset themes — ek click mein website ka look change karo</p>
+        </div>
+        <div class="theme-grid" id="themeGrid"></div>
+        <div style="margin-top:22px;display:flex;gap:12px;align-items:center;">
+          <button class="btn btn-gold" onclick="applySelectedTheme()">✨ &nbsp;Apply Selected Theme to Website</button>
+          <span style="font-size:12px;color:var(--muted);" id="selectedThemeName"></span>
+        </div>
+      </div>
+
+      <!-- ── CUSTOM COLORS ── -->
+      <div class="tab" id="tab-colors">
+        <div class="page-header">
+          <h1 class="page-title">Custom <em>Colors</em></h1>
+          <p class="page-sub">Individual colors fine-tune karo</p>
+        </div>
+        <div class="card">
+          <div class="card-title">Color Palette</div>
+          <div class="color-row" style="margin-bottom:20px;">
+            <div class="color-field"><label>Background</label><input type="color" id="col-ink" value="#0a0608"></div>
+            <div class="color-field"><label>Text</label><input type="color" id="col-cream" value="#f7f2ec"></div>
+            <div class="color-field"><label>Primary</label><input type="color" id="col-gold" value="#c9a96e"></div>
+            <div class="color-field"><label>Primary Light</label><input type="color" id="col-goldlight" value="#e8d5b0"></div>
+            <div class="color-field"><label>Accent</label><input type="color" id="col-plum" value="#3d1c3a"></div>
+            <div class="color-field"><label>Rose</label><input type="color" id="col-rose" value="#c4607a"></div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-gold" onclick="saveCustomColors()">💾 &nbsp;Save Colors</button>
+            <button class="btn btn-outline" onclick="previewColors()">👁 &nbsp;Preview</button>
+            <button class="btn btn-outline" onclick="resetColors()">↺ &nbsp;Reset</button>
+          </div>
+        </div>
+        <div class="card" style="margin-top:18px;">
+          <div class="card-title">Color Preview</div>
+          <div id="colorPreview" style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;"></div>
         </div>
       </div>
 
@@ -845,398 +878,327 @@ body { background: var(--ink); color: var(--cream); font-family: 'DM Sans', sans
   <!-- Mobile Bottom Nav -->
   <div class="mobile-bottom-nav">
     <div class="mob-nav-items">
-      <div class="mob-nav-item active" onclick="showTab('dashboard')"><span>📊</span><span>Home</span></div>
-      <div class="mob-nav-item" onclick="showTab('appointments')"><span>📅</span><span>Bookings</span></div>
-      <div class="mob-nav-item" onclick="showTab('catalogue')"><span>📋</span><span>Catalogue</span></div>
-      <div class="mob-nav-item" onclick="showTab('popup')"><span>🎯</span><span>Popup</span></div>
-      <div class="mob-nav-item" onclick="showTab('gallery')"><span>🖼️</span><span>Gallery</span></div>
-      <div class="mob-nav-item" onclick="showTab('themes')"><span>🎨</span><span>Theme</span></div>
+      <div class="mob-nav-item active" onclick="showTab('dashboard')"><span>📊</span><span class="mob-nav-label">Home</span></div>
+      <div class="mob-nav-item" onclick="showTab('appointments')"><span>📅</span><span class="mob-nav-label">Bookings</span></div>
+      <div class="mob-nav-item" onclick="showTab('catalogue')"><span>📋</span><span class="mob-nav-label">Services</span></div>
+      <div class="mob-nav-item" onclick="showTab('gallery')"><span>🖼️</span><span class="mob-nav-label">Gallery</span></div>
+      <div class="mob-nav-item" onclick="showTab('popup')"><span>🎯</span><span class="mob-nav-label">Popup</span></div>
+      <div class="mob-nav-item" onclick="showTab('themes')"><span>🎨</span><span class="mob-nav-label">Theme</span></div>
     </div>
   </div>
 </div><!-- /adminApp -->
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
-<!-- ═══ FIREBASE + CLOUDINARY SCRIPTS ══════════════════════════ -->
+<!-- ═══ FIREBASE ════════════════════════════════════════ -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyBib7SSko0rxHDaIzKVdRYr_3IheDa8lv8",
-  authDomain: "winsome-60bc3.firebaseapp.com",
-  projectId: "winsome-60bc3",
-  storageBucket: "winsome-60bc3.firebasestorage.app",
-  messagingSenderId: "575694934791",
-  appId: "1:575694934791:web:bd88aa35a565383a8d6ba2",
-  databaseURL: "https://winsome-60bc3-default-rtdb.firebaseio.com"
+// ─── CONFIG ──────────────────────────────────────────
+const firebaseConfig={
+  apiKey:"AIzaSyBib7SSko0rxHDaIzKVdRYr_3IheDa8lv8",
+  authDomain:"winsome-60bc3.firebaseapp.com",
+  projectId:"winsome-60bc3",
+  storageBucket:"winsome-60bc3.firebasestorage.app",
+  messagingSenderId:"575694934791",
+  appId:"1:575694934791:web:bd88aa35a565383a8d6ba2",
+  databaseURL:"https://winsome-60bc3-default-rtdb.firebaseio.com"
 };
-const CLOUDINARY_CLOUD = "dbxfqh6zz";
-const CLOUDINARY_PRESET = "winsome";
-const ADMIN_EMAILS = ["manmohansharma002008@gmail.com"];
+const CLOUDINARY_CLOUD="dbxfqh6zz";
+const CLOUDINARY_PRESET="winsome";
+const ADMIN_EMAILS=["manmohansharma002008@gmail.com"];
 
 firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.database();
-const provider = new firebase.auth.GoogleAuthProvider();
+const auth=firebase.auth();
+const db=firebase.database();
+const provider=new firebase.auth.GoogleAuthProvider();
 
-// Compat wrappers — baaki sara code same rahega
-function ref(db, path) { return db.ref(path); }
-function get(refObj) { return refObj.once('value'); }
-function set(refObj, data) { return refObj.set(data); }
-function update(refObj, data) { return refObj.update(data); }
-function remove(refObj) { return refObj.remove(); }
-function push(refObj) { return refObj.push(); }
-function onValue(refObj, cb, errCb) { refObj.on('value', snap => cb(snap), errCb); }
+function ref(d,p){return d.ref(p);}
+function get(r){return r.once('value');}
+function set(r,d){return r.set(d);}
+function update(r,d){return r.update(d);}
+function remove(r){return r.remove();}
+function push(r){return r.push();}
+function onValue(r,cb,ecb){r.on('value',s=>cb(s),ecb);}
 
-// Auth compat wrappers
-function onAuthStateChanged(auth, cb) { return auth.onAuthStateChanged(cb); }
-function signInWithPopup(auth, provider) { return auth.signInWithPopup(provider); }
-function signInWithEmailAndPassword(auth, email, pass) { return auth.signInWithEmailAndPassword(email, pass); }
-function fbSignOut(auth) { return auth.signOut(); }
+// ─── GREETING ────────────────────────────────────────
+const hr=new Date().getHours();
+const greet=document.getElementById('timeGreet');
+if(greet) greet.textContent=hr<12?'morning':hr<17?'afternoon':'evening';
 
-// ─── TOAST (global — defined here so all functions can use it) ─
-window.showToast = (msg, type = 'success') => {
-  const t = document.getElementById('toast');
-  if (!t) return;
-  t.textContent = msg;
-  t.className = 'toast ' + type + ' show';
-  setTimeout(() => t.classList.remove('show'), 3500);
-  // Update save status in topbar
-  if (type === 'success') {
-    const status = document.getElementById('saveStatus');
-    if (status) {
-      const now = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
-      status.textContent = 'Saved ' + now;
-      status.style.color = '#6dbd8a';
-      setTimeout(() => { status.textContent = ''; }, 5000);
+// ─── TOAST ───────────────────────────────────────────
+window.showToast=(msg,type='success')=>{
+  const t=document.getElementById('toast');
+  if(!t)return;
+  t.textContent=msg;t.className='toast '+type+' show';
+  setTimeout(()=>t.classList.remove('show'),3500);
+  if(type==='success'){
+    const s=document.getElementById('saveStatus');
+    if(s){
+      const now=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+      s.textContent='Saved '+now;s.style.color='#6dbd8a';
+      setTimeout(()=>{s.textContent='';},5000);
     }
   }
 };
 
-// ─── AUTH ─────────────────────────────────────
-window.signInWithEmail = async () => {
-  const emailEl = document.getElementById('loginEmail');
-  const passEl = document.getElementById('loginPassword');
-  if (!emailEl || !passEl) return;
-  const email = emailEl.value.trim();
-  const password = passEl.value;
-  if (!email || !password) { window.showToast('❌ Email aur password daalo', 'error'); return; }
-  if (!ADMIN_EMAILS.includes(email)) { window.showToast('❌ Access denied. Not an admin account.', 'error'); return; }
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-  } catch(e) {
-    const msg = (e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential')
-      ? '❌ Galat password. Dobara try karo.'
-      : e.code === 'auth/user-not-found'
-      ? '❌ Yeh email registered nahi hai.'
-      : '❌ Login failed: ' + e.code;
-    window.showToast(msg, 'error');
+// ─── AUTH ─────────────────────────────────────────────
+window.signInWithEmail=async()=>{
+  const email=document.getElementById('loginEmail')?.value.trim();
+  const pass=document.getElementById('loginPassword')?.value;
+  if(!email||!pass){showToast('❌ Email aur password daalo','error');return;}
+  if(!ADMIN_EMAILS.includes(email)){showToast('❌ Access denied','error');return;}
+  try{await auth.signInWithEmailAndPassword(email,pass);}
+  catch(e){
+    const m=e.code==='auth/wrong-password'||e.code==='auth/invalid-credential'?'❌ Galat password'
+      :e.code==='auth/user-not-found'?'❌ Email registered nahi hai':'❌ Login failed: '+e.code;
+    showToast(m,'error');
   }
 };
-
-window.signInWithGoogle = async () => {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const email = result.user.email;
-    if (!ADMIN_EMAILS.includes(email)) {
-      await fbSignOut(auth);
-      window.showToast('❌ Access denied. Not an admin account.', 'error');
-    }
-  } catch(e) {
-    window.showToast('❌ Google login failed: ' + e.code, 'error');
-  }
+window.signInWithGoogle=async()=>{
+  try{
+    const r=await auth.signInWithPopup(provider);
+    if(!ADMIN_EMAILS.includes(r.user.email)){await auth.signOut();showToast('❌ Access denied','error');}
+  }catch(e){showToast('❌ Google login failed','error');}
 };
+window.signOut=async()=>{await auth.signOut();};
 
-window.signOut = async () => { await fbSignOut(auth); };
-
-onAuthStateChanged(auth, (user) => {
-  if (user && ADMIN_EMAILS.includes(user.email)) {
-    document.getElementById('loginScreen').style.display = 'none';
+auth.onAuthStateChanged(user=>{
+  if(user&&ADMIN_EMAILS.includes(user.email)){
+    document.getElementById('loginScreen').style.display='none';
     document.getElementById('adminApp').classList.add('active');
-    document.getElementById('userName').textContent = user.displayName || user.email;
-    document.getElementById('userAvatar').src = user.photoURL || '';
-    const first = (user.displayName || 'Admin').split(' ')[0];
-    document.getElementById('adminFirstName').textContent = first;
+    document.getElementById('userName').textContent=(user.displayName||user.email).split(' ')[0];
+    document.getElementById('userAvatar').src=user.photoURL||'';
+    document.getElementById('adminFirstName').textContent=(user.displayName||'Admin').split(' ')[0];
     initAdmin();
-  } else {
-    document.getElementById('loginScreen').style.display = 'flex';
+  }else{
+    document.getElementById('loginScreen').style.display='flex';
     document.getElementById('adminApp').classList.remove('active');
   }
 });
 
-// ─── INIT ADMIN ───────────────────────────────
-async function initAdmin() {
-  await Promise.all([
-    loadContent(),
-    loadAppointments(),
-    loadGallery(),
-    loadThemes(),
-    loadCatalogue(),
-    loadPopup()
-  ]);
+// ─── INIT ─────────────────────────────────────────────
+async function initAdmin(){
+  await Promise.all([loadContent(),loadAppointments(),loadGallery(),loadCatalogue(),loadPopup()]);
   loadDashboard();
   initServicesAdmin();
+  renderThemeGrid();
   renderColorPreview();
-
-  // ─── Real-time appointments badge (auto-updates without refresh) ───
-  // Realtime DB - filter client side
-  onValue(ref(db, 'appointments'), (snap) => {
-    const val = snap.val() || {};
-    const pendingCount = Object.values(val).filter(a => a.status === 'pending').length;
-    document.getElementById('pendingBadge').textContent = pendingCount || '0';
-    document.getElementById('dash-pending').textContent = pendingCount;
+  onValue(ref(db,'appointments'),snap=>{
+    const pending=Object.values(snap.val()||{}).filter(a=>a.status==='pending').length;
+    document.getElementById('pendingBadge').textContent=pending||'0';
+    document.getElementById('dash-pending').textContent=pending;
   });
-
-  // Show LIVE badge after Firebase connected
-  setTimeout(() => {
-    const badge = document.getElementById('liveBadge');
-    if (badge) badge.style.opacity = '1';
-  }, 1200);
+  setTimeout(()=>{
+    const b=document.getElementById('liveBadge');
+    if(b)b.classList.add('show');
+  },1200);
 }
 
-// ─── TOAST defined above in module ────────────
-
-// ─── TAB SWITCHING ────────────────────────────
-window.showTab = (id) => {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.querySelectorAll('.mob-nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('tab-' + id).classList.add('active');
-  document.querySelectorAll(`.nav-item`).forEach(n => { if(n.onclick && n.onclick.toString().includes(`'${id}'`)) n.classList.add('active'); });
-  document.querySelectorAll(`.mob-nav-item`).forEach(n => { if(n.onclick && n.onclick.toString().includes(`'${id}'`)) n.classList.add('active'); });
-  // Scroll to top of content on mobile
-  const content = document.querySelector('.content');
-  if (content && window.innerWidth <= 768) content.scrollTop = 0;
+// ─── TAB SWITCHING ────────────────────────────────────
+window.showTab=(id)=>{
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nav-item,.mob-nav-item').forEach(n=>n.classList.remove('active'));
+  const tabEl=document.getElementById('tab-'+id);
+  if(tabEl)tabEl.classList.add('active');
+  document.querySelectorAll('.nav-item,.mob-nav-item').forEach(n=>{
+    if(n.onclick&&n.onclick.toString().includes(`'${id}'`))n.classList.add('active');
+  });
+  const content=document.querySelector('.content');
+  if(content&&window.innerWidth<=768)content.scrollTop=0;
 };
 
-// ─── LOAD CONTENT FROM FIRESTORE ──────────────
-async function loadContent() {
-  try {
-    const snap = await get(ref(db, 'settings/content'));
-    if (snap.exists()) {
-      const d = snap.val();
-      // Hero
-      if (d.heroEyebrow) document.getElementById('h-eyebrow').value = d.heroEyebrow;
-      if (d.heroHeading) document.getElementById('h-heading').value = d.heroHeading;
-      if (d.heroSub) document.getElementById('h-sub').value = d.heroSub;
-      if (d.stat1Num) document.getElementById('h-s1n').value = d.stat1Num;
-      if (d.stat1Label) document.getElementById('h-s1l').value = d.stat1Label;
-      if (d.stat2Num) document.getElementById('h-s2n').value = d.stat2Num;
-      if (d.stat2Label) document.getElementById('h-s2l').value = d.stat2Label;
-      if (d.stat3Num) document.getElementById('h-s3n').value = d.stat3Num;
-      if (d.stat3Label) document.getElementById('h-s3l').value = d.stat3Label;
-      if (d.heroBgUrl) { document.getElementById('heroBgPreview').src = d.heroBgUrl; document.getElementById('heroBgPreview').classList.add('show'); }
-      // About
-      if (d.aboutHeading) document.getElementById('a-heading').value = d.aboutHeading;
-      if (d.aboutText1) document.getElementById('a-text1').value = d.aboutText1;
-      if (d.aboutText2) document.getElementById('a-text2').value = d.aboutText2;
-      if (d.aboutYears) document.getElementById('a-years').value = d.aboutYears;
-      if (d.aboutImgUrl) { document.getElementById('aboutImgPreview').src = d.aboutImgUrl; document.getElementById('aboutImgPreview').classList.add('show'); }
-      // Contact
-      if (d.phone) document.getElementById('c-phone').value = d.phone;
-      if (d.whatsapp) document.getElementById('c-whatsapp').value = d.whatsapp;
-      if (d.address) document.getElementById('c-address').value = d.address;
-      if (d.hours) document.getElementById('c-hours').value = d.hours;
-      if (d.mapsLink) document.getElementById('c-maps').value = d.mapsLink;
-      if (d.instagram) document.getElementById('c-instagram').value = d.instagram;
-      if (d.facebook) document.getElementById('c-facebook').value = d.facebook;
-      // Services
-      if (d.services) window._services = d.services;
+// ─── LOAD CONTENT ─────────────────────────────────────
+async function loadContent(){
+  try{
+    const snap=await get(ref(db,'settings/content'));
+    if(snap.exists()){
+      const d=snap.val();
+      ['h-eyebrow','h-heading','h-sub','h-s1n','h-s1l','h-s2n','h-s2l','h-s3n','h-s3l'].forEach(id=>{
+        const key=id.replace('h-','hero').replace(/-([a-z])/g,(_,c)=>c.toUpperCase());
+        const map={'h-eyebrow':'heroEyebrow','h-heading':'heroHeading','h-sub':'heroSub',
+          'h-s1n':'stat1Num','h-s1l':'stat1Label','h-s2n':'stat2Num','h-s2l':'stat2Label',
+          'h-s3n':'stat3Num','h-s3l':'stat3Label'};
+        const el=document.getElementById(id);
+        if(el&&d[map[id]])el.value=d[map[id]];
+      });
+      if(d.heroBgUrl){const p=document.getElementById('heroBgPreview');if(p){p.src=d.heroBgUrl;p.classList.add('show');}}
+      if(d.aboutHeading)document.getElementById('a-heading').value=d.aboutHeading;
+      if(d.aboutText1)document.getElementById('a-text1').value=d.aboutText1;
+      if(d.aboutText2)document.getElementById('a-text2').value=d.aboutText2;
+      if(d.aboutYears)document.getElementById('a-years').value=d.aboutYears;
+      if(d.aboutImgUrl){const p=document.getElementById('aboutImgPreview');if(p){p.src=d.aboutImgUrl;p.classList.add('show');}}
+      if(d.phone)document.getElementById('c-phone').value=d.phone;
+      if(d.whatsapp)document.getElementById('c-whatsapp').value=d.whatsapp;
+      if(d.address)document.getElementById('c-address').value=d.address;
+      if(d.hours)document.getElementById('c-hours').value=d.hours;
+      if(d.mapsLink)document.getElementById('c-maps').value=d.mapsLink;
+      if(d.instagram)document.getElementById('c-instagram').value=d.instagram;
+      if(d.facebook)document.getElementById('c-facebook').value=d.facebook;
+      if(d.services)window._services=d.services;
     }
-    // Theme colors
-    const tsnap = await get(ref(db, 'settings/theme'));
-    if (tsnap.exists()) {
-      const t = tsnap.val();
-      if (t.ink) document.getElementById('col-ink').value = t.ink;
-      if (t.cream) document.getElementById('col-cream').value = t.cream;
-      if (t.gold) document.getElementById('col-gold').value = t.gold;
-      if (t.goldLight) document.getElementById('col-goldlight').value = t.goldLight;
-      if (t.plum) document.getElementById('col-plum').value = t.plum;
-      if (t.rose) document.getElementById('col-rose').value = t.rose;
+    const ts=await get(ref(db,'settings/theme'));
+    if(ts.exists()){
+      const t=ts.val();
+      if(t.ink)document.getElementById('col-ink').value=t.ink;
+      if(t.cream)document.getElementById('col-cream').value=t.cream;
+      if(t.gold)document.getElementById('col-gold').value=t.gold;
+      if(t.goldLight)document.getElementById('col-goldlight').value=t.goldLight;
+      if(t.plum)document.getElementById('col-plum').value=t.plum;
+      if(t.rose)document.getElementById('col-rose').value=t.rose;
     }
-  } catch(e) { console.log('Load error:', e); }
+  }catch(e){console.log('Load error:',e);}
 }
 
-// ─── SAVE HERO ────────────────────────────────
-window.saveHero = async () => {
-  try {
-    const existing = (await get(ref(db, 'settings/content'))).val() || {};
-    await set(ref(db, 'settings/content'), {
-      ...existing,
-      heroEyebrow: document.getElementById('h-eyebrow').value,
-      heroHeading: document.getElementById('h-heading').value,
-      heroSub: document.getElementById('h-sub').value,
-      stat1Num: document.getElementById('h-s1n').value,
-      stat1Label: document.getElementById('h-s1l').value,
-      stat2Num: document.getElementById('h-s2n').value,
-      stat2Label: document.getElementById('h-s2l').value,
-      stat3Num: document.getElementById('h-s3n').value,
-      stat3Label: document.getElementById('h-s3l').value,
-      heroBgUrl: window._heroBgUrl || existing.heroBgUrl || '',
+// ─── SAVE HERO ────────────────────────────────────────
+window.saveHero=async()=>{
+  try{
+    const ex=(await get(ref(db,'settings/content'))).val()||{};
+    await set(ref(db,'settings/content'),{...ex,
+      heroEyebrow:document.getElementById('h-eyebrow').value,
+      heroHeading:document.getElementById('h-heading').value,
+      heroSub:document.getElementById('h-sub').value,
+      stat1Num:document.getElementById('h-s1n').value,stat1Label:document.getElementById('h-s1l').value,
+      stat2Num:document.getElementById('h-s2n').value,stat2Label:document.getElementById('h-s2l').value,
+      stat3Num:document.getElementById('h-s3n').value,stat3Label:document.getElementById('h-s3l').value,
+      heroBgUrl:window._heroBgUrl||ex.heroBgUrl||'',
     });
     showToast('✅ Hero section saved!');
-  } catch(e) { showToast('❌ Save failed', 'error'); }
+  }catch(e){showToast('❌ Save failed','error');}
 };
 
-// ─── SAVE ABOUT ───────────────────────────────
-window.saveAbout = async () => {
-  try {
-    const existing = (await get(ref(db, 'settings/content'))).val() || {};
-    await set(ref(db, 'settings/content'), {
-      ...existing,
-      aboutHeading: document.getElementById('a-heading').value,
-      aboutText1: document.getElementById('a-text1').value,
-      aboutText2: document.getElementById('a-text2').value,
-      aboutYears: document.getElementById('a-years').value,
-      aboutImgUrl: window._aboutImgUrl || existing.aboutImgUrl || '',
+// ─── SAVE ABOUT ───────────────────────────────────────
+window.saveAbout=async()=>{
+  try{
+    const ex=(await get(ref(db,'settings/content'))).val()||{};
+    await set(ref(db,'settings/content'),{...ex,
+      aboutHeading:document.getElementById('a-heading').value,
+      aboutText1:document.getElementById('a-text1').value,
+      aboutText2:document.getElementById('a-text2').value,
+      aboutYears:document.getElementById('a-years').value,
+      aboutImgUrl:window._aboutImgUrl||ex.aboutImgUrl||'',
     });
-    showToast('✅ About section saved!');
-  } catch(e) { showToast('❌ Save failed', 'error'); }
+    showToast('✅ About saved!');
+  }catch(e){showToast('❌ Save failed','error');}
 };
 
-// ─── SERVICES ADMIN ───────────────────────────
-const defaultServices = [
-  { name: 'Hair Care', desc: 'Cut, color, balayage, keratin treatment, smoothening, hair spa & more.', price: '₹299' },
-  { name: 'Skin Care', desc: 'Deep cleansing facials, D-tan, cleanup, bleach, and advanced skin treatments.', price: '₹399' },
-  { name: 'Bridal Package', desc: 'Complete bridal packages — makeup, mehendi, hair styling, and pre-bridal skin rituals.', price: '₹4,999' },
-  { name: 'Nail Art', desc: 'Manicure, pedicure, gel nails, nail extensions, and intricate nail art designs.', price: '₹249' },
-  { name: 'Makeup & Glam', desc: 'Party makeup, airbrush, HD makeup for events, photoshoots, and every special occasion.', price: '₹799' },
-  { name: 'Waxing & Threading', desc: 'Full body waxing, threading, and precision eyebrow shaping using only premium quality products.', price: '₹99' },
+// ─── SERVICES ADMIN ───────────────────────────────────
+const defaultServices=[
+  {name:'Hair Care',desc:'Cut, color, balayage, keratin, smoothening, hair spa & more.',price:'₹299'},
+  {name:'Skin Care',desc:'Deep cleansing facials, D-tan, cleanup, bleach, and skin treatments.',price:'₹399'},
+  {name:'Bridal Package',desc:'Complete bridal packages — makeup, mehendi, hair styling & pre-bridal rituals.',price:'₹4,999'},
+  {name:'Nail Art',desc:'Manicure, pedicure, gel nails, extensions, and nail art designs.',price:'₹249'},
+  {name:'Makeup & Glam',desc:'Party makeup, airbrush, HD makeup for events, photoshoots.',price:'₹799'},
+  {name:'Waxing & Threading',desc:'Full body waxing, threading, precision eyebrow shaping.',price:'₹99'},
 ];
+const SVC_ICONS=['✦','◈','♡','◇','✿','〜'];
 
-function initServicesAdmin() {
-  const services = window._services || defaultServices;
-  const container = document.getElementById('servicesAdmin');
-  container.innerHTML = services.map((svc, i) => `
+function initServicesAdmin(){
+  const services=window._services||defaultServices;
+  const container=document.getElementById('servicesAdmin');
+  container.innerHTML=services.map((svc,i)=>`
     <div class="svc-admin-card">
+      <div class="svc-admin-num">0${i+1}</div>
       <div>
-        <div class="svc-admin-num">0${i+1}</div>
         <div class="field"><label>Service Name</label><input id="svc-name-${i}" value="${svc.name}"></div>
-        <div class="field"><label>Starting Price</label><input id="svc-price-${i}" value="${svc.price}" style="max-width:140px;"></div>
+        <div class="field"><label>Price (Starting from)</label><input id="svc-price-${i}" value="${svc.price}" style="max-width:130px;"></div>
       </div>
       <div>
-        <div class="field" style="margin-top:36px;"><label>Description</label><textarea id="svc-desc-${i}" rows="4">${svc.desc}</textarea></div>
-      </div>
-      <div style="padding-top:36px;">
-        <div style="font-size:28px;color:var(--gold);opacity:0.3;">${ ['✦','◈','♡','◇','✿','〜'][i] || '✦' }</div>
+        <div class="field" style="margin-top:0;"><label>Description</label><textarea id="svc-desc-${i}" rows="4">${svc.desc}</textarea></div>
       </div>
     </div>
   `).join('');
 }
 
-window.saveServices = async () => {
-  const services = Array.from({length: 6}, (_, i) => ({
-    name: document.getElementById(`svc-name-${i}`)?.value || '',
-    desc: document.getElementById(`svc-desc-${i}`)?.value || '',
-    price: document.getElementById(`svc-price-${i}`)?.value || '',
-  })).filter(s => s.name);
-  try {
-    const existing = (await get(ref(db, 'settings/content'))).val() || {};
-    await set(ref(db, 'settings/content'), { ...existing, services });
+window.saveServices=async()=>{
+  const services=Array.from({length:6},(_,i)=>({
+    name:document.getElementById(`svc-name-${i}`)?.value||'',
+    desc:document.getElementById(`svc-desc-${i}`)?.value||'',
+    price:document.getElementById(`svc-price-${i}`)?.value||'',
+  })).filter(s=>s.name);
+  try{
+    const ex=(await get(ref(db,'settings/content'))).val()||{};
+    await set(ref(db,'settings/content'),{...ex,services});
     showToast('✅ Services saved!');
-  } catch(e) { showToast('❌ Save failed', 'error'); }
+  }catch(e){showToast('❌ Save failed','error');}
 };
 
-// ─── SAVE CONTACT ─────────────────────────────
-window.saveContact = async () => {
-  try {
-    const existing = (await get(ref(db, 'settings/content'))).val() || {};
-    await set(ref(db, 'settings/content'), {
-      ...existing,
-      phone: document.getElementById('c-phone').value,
-      whatsapp: document.getElementById('c-whatsapp').value,
-      address: document.getElementById('c-address').value,
-      hours: document.getElementById('c-hours').value,
-      mapsLink: document.getElementById('c-maps').value,
-      instagram: document.getElementById('c-instagram').value,
-      facebook: document.getElementById('c-facebook').value,
+// ─── SAVE CONTACT ─────────────────────────────────────
+window.saveContact=async()=>{
+  try{
+    const ex=(await get(ref(db,'settings/content'))).val()||{};
+    await set(ref(db,'settings/content'),{...ex,
+      phone:document.getElementById('c-phone').value,
+      whatsapp:document.getElementById('c-whatsapp').value,
+      address:document.getElementById('c-address').value,
+      hours:document.getElementById('c-hours').value,
+      mapsLink:document.getElementById('c-maps').value,
+      instagram:document.getElementById('c-instagram').value,
+      facebook:document.getElementById('c-facebook').value,
     });
     showToast('✅ Contact info saved!');
-  } catch(e) { showToast('❌ Save failed', 'error'); }
+  }catch(e){showToast('❌ Save failed','error');}
 };
 
-// ─── CLOUDINARY IMAGE UPLOAD ──────────────────
-window.uploadImage = async (input, storeKey, previewId, progressId) => {
-  const file = input.files[0];
-  if (!file) return;
-  const preview = document.getElementById(previewId);
-  const progressEl = document.getElementById(progressId);
-  const barId = progressId + 'Bar';
-
-  progressEl.style.display = 'block';
-
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('upload_preset', CLOUDINARY_PRESET);
-  formData.append('folder', 'winsome');
-
-  try {
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`);
-    xhr.upload.onprogress = (e) => {
-      const pct = Math.round(e.loaded / e.total * 100);
-      document.getElementById(barId).style.width = pct + '%';
+// ─── IMAGE UPLOAD ─────────────────────────────────────
+window.uploadImage=async(input,storeKey,previewId,progressId)=>{
+  const file=input.files[0];if(!file)return;
+  const preview=document.getElementById(previewId);
+  const progressEl=document.getElementById(progressId);
+  const barId=progressId+'Bar';
+  progressEl.style.display='block';
+  const formData=new FormData();
+  formData.append('file',file);formData.append('upload_preset',CLOUDINARY_PRESET);formData.append('folder','winsome');
+  try{
+    const xhr=new XMLHttpRequest();
+    xhr.open('POST',`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`);
+    xhr.upload.onprogress=e=>{document.getElementById(barId).style.width=Math.round(e.loaded/e.total*100)+'%';};
+    xhr.onload=()=>{
+      const res=JSON.parse(xhr.responseText);
+      window['_'+storeKey]=res.secure_url;
+      preview.src=res.secure_url;preview.classList.add('show');
+      progressEl.style.display='none';showToast('✅ Image uploaded!');
     };
-    xhr.onload = () => {
-      const res = JSON.parse(xhr.responseText);
-      window['_' + storeKey] = res.secure_url;
-      preview.src = res.secure_url;
-      preview.classList.add('show');
-      progressEl.style.display = 'none';
-      showToast('✅ Image uploaded!');
-    };
-    xhr.onerror = () => { showToast('❌ Upload failed', 'error'); progressEl.style.display = 'none'; };
+    xhr.onerror=()=>{showToast('❌ Upload failed','error');progressEl.style.display='none';};
     xhr.send(formData);
-  } catch(e) { showToast('❌ Upload error', 'error'); }
+  }catch(e){showToast('❌ Upload error','error');}
 };
 
-// ─── GALLERY UPLOAD ───────────────────────────
-window.uploadGalleryImages = async (input) => {
-  const files = Array.from(input.files);
-  if (!files.length) return;
-  const progressEl = document.getElementById('galProgress');
-  const bar = document.getElementById('galProgressBar');
-  progressEl.style.display = 'block';
-  bar.style.width = '0%';
-
-  const existing = (await get(ref(db, 'settings/content'))).val() || {};
-  const currentGallery = existing.galleryImages || [];
-  const urls = [...currentGallery];
-
-  for (let i = 0; i < files.length; i++) {
-    const formData = new FormData();
-    formData.append('file', files[i]);
-    formData.append('upload_preset', CLOUDINARY_PRESET);
-    formData.append('folder', 'winsome/gallery');
-    try {
-      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, { method: 'POST', body: formData });
-      const data = await res.json();
+// ─── GALLERY ──────────────────────────────────────────
+window.uploadGalleryImages=async(input)=>{
+  const files=Array.from(input.files);if(!files.length)return;
+  const progress=document.getElementById('galProgress');
+  const bar=document.getElementById('galProgressBar');
+  progress.style.display='block';bar.style.width='0%';
+  const existing=(await get(ref(db,'settings/content'))).val()||{};
+  const urls=[...(existing.galleryImages||[])];
+  for(let i=0;i<files.length;i++){
+    const fd=new FormData();
+    fd.append('file',files[i]);fd.append('upload_preset',CLOUDINARY_PRESET);fd.append('folder','winsome/gallery');
+    try{
+      const res=await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`,{method:'POST',body:fd});
+      const data=await res.json();
       urls.push(data.secure_url);
-    } catch(e) {}
-    bar.style.width = ((i + 1) / files.length * 100) + '%';
+    }catch(e){}
+    bar.style.width=((i+1)/files.length*100)+'%';
   }
-
-  await set(ref(db, 'settings/content'), { ...existing, galleryImages: urls });
-  progressEl.style.display = 'none';
+  await set(ref(db,'settings/content'),{...existing,galleryImages:urls});
+  progress.style.display='none';
   showToast(`✅ ${files.length} photo(s) uploaded!`);
   loadGallery();
 };
 
-// ─── LOAD GALLERY ─────────────────────────────
-async function loadGallery() {
-  const snap = await get(ref(db, 'settings/content'));
-  const imgs = snap.exists() ? (snap.val().galleryImages || []) : [];
-  const grid = document.getElementById('galleryAdminGrid');
-  document.getElementById('galCount').textContent = `(${imgs.length} photos)`;
-
-  if (!imgs.length) {
-    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-icon">🖼️</div>No gallery photos yet</div>`;
+async function loadGallery(){
+  const snap=await get(ref(db,'settings/content'));
+  const imgs=snap.exists()?(snap.val().galleryImages||[]):[];
+  const grid=document.getElementById('galleryAdminGrid');
+  document.getElementById('galCount').textContent=`(${imgs.length} photos)`;
+  if(!imgs.length){
+    grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1;"><div class="empty-icon">🖼️</div>Gallery mein koi photo nahi hai abhi</div>`;
     return;
   }
-
-  grid.innerHTML = imgs.map((url, i) => `
+  grid.innerHTML=imgs.map((url,i)=>`
     <div class="gallery-thumb">
       <img src="${url}" alt="Gallery ${i+1}" loading="lazy">
       <button class="gallery-thumb-del" onclick="deleteGalleryImg(${i})" title="Delete">✕</button>
@@ -1244,443 +1206,366 @@ async function loadGallery() {
   `).join('');
 }
 
-window.deleteGalleryImg = async (idx) => {
-  if (!confirm('Delete this photo?')) return;
-  const snap = await get(ref(db, 'settings/content'));
-  const existing = snap.val() || {};
-  const imgs = [...(existing.galleryImages || [])];
-  imgs.splice(idx, 1);
-  await set(ref(db, 'settings/content'), { ...existing, galleryImages: imgs });
-  showToast('🗑️ Photo deleted');
-  loadGallery();
+window.deleteGalleryImg=async(idx)=>{
+  if(!confirm('Yeh photo delete karo?'))return;
+  const snap=await get(ref(db,'settings/content'));
+  const ex=snap.val()||{};
+  const imgs=[...(ex.galleryImages||[])];
+  imgs.splice(idx,1);
+  await set(ref(db,'settings/content'),{...ex,galleryImages:imgs});
+  showToast('🗑️ Photo deleted');loadGallery();
 };
 
-// ─── THEMES ───────────────────────────────────
-const THEMES = [
+// ─── 6 THEMES ─────────────────────────────────────────
+const THEMES=[
   {
-    id: 'luxury-dark', name: 'Luxury Dark', tag: 'Default',
-    colors: { ink: '#0a0608', cream: '#f7f2ec', gold: '#c9a96e', goldLight: '#e8d5b0', plum: '#3d1c3a', rose: '#c4607a' }
+    id:'neon-pink',name:'Neon Pink',tag:'Vibrant & Modern',
+    bg:'linear-gradient(135deg,#1c1a2e,#2a1535)',accent:'#ff3cac',pill:'#784ba0',text:'#fff',
+    colors:{primary:'#ff3cac',secondary:'#784ba0',accent:'#2b86c5',bg:'#1c1a2e',bg2:'#221f35',bg3:'#2a2640',text:'#ffffff',grad:'135deg,#ff3cac,#784ba0,#2b86c5'}
   },
   {
-    id: 'royal-black', name: 'Royal Black', tag: 'Bold',
-    colors: { ink: '#000000', cream: '#ffffff', gold: '#d4af37', goldLight: '#f0d060', plum: '#1a0a2e', rose: '#9b2335' }
+    id:'royal-gold',name:'Royal Gold',tag:'Luxury & Classic',
+    bg:'linear-gradient(135deg,#0a0608,#150c1a)',accent:'#c9a96e',pill:'#3d1c3a',text:'#f7f2ec',
+    colors:{primary:'#c9a96e',secondary:'#e8d5b0',accent:'#3d1c3a',bg:'#0a0608',bg2:'#120e18',bg3:'#1a1520',text:'#f7f2ec',grad:'135deg,#c9a96e,#e8d5b0'}
   },
   {
-    id: 'rose-blush', name: 'Rose Blush', tag: 'Feminine',
-    colors: { ink: '#1a0810', cream: '#fff0f5', gold: '#d4736a', goldLight: '#f0b0a8', plum: '#5c1a3a', rose: '#e8506a' }
+    id:'rose-bloom',name:'Rose Bloom',tag:'Feminine & Soft',
+    bg:'linear-gradient(135deg,#1a0810,#2a1020)',accent:'#e8506a',pill:'#5c1a3a',text:'#fff0f5',
+    colors:{primary:'#e8506a',secondary:'#f0a0b0',accent:'#c020a0',bg:'#1a0810',bg2:'#210e18',bg3:'#2a1520',text:'#fff0f5',grad:'135deg,#e8506a,#c020a0'}
   },
   {
-    id: 'emerald-night', name: 'Emerald Night', tag: 'Fresh',
-    colors: { ink: '#030d08', cream: '#edf5f0', gold: '#4caf78', goldLight: '#8ad4a0', plum: '#0d2b1a', rose: '#2d8a5e' }
+    id:'midnight-purple',name:'Midnight Purple',tag:'Mystic & Deep',
+    bg:'linear-gradient(135deg,#080510,#120a2a)',accent:'#9b72cf',pill:'#3a1a80',text:'#f0ecff',
+    colors:{primary:'#9b72cf',secondary:'#c8a8f0',accent:'#5040a0',bg:'#080510',bg2:'#0e0b1e',bg3:'#150f2a',text:'#f0ecff',grad:'135deg,#9b72cf,#c8a8f0'}
   },
   {
-    id: 'midnight-purple', name: 'Midnight Purple', tag: 'Mystic',
-    colors: { ink: '#080510', cream: '#f0ecff', gold: '#9b72cf', goldLight: '#c8a8f0', plum: '#1a0a3e', rose: '#c060c0' }
+    id:'ocean-teal',name:'Ocean Teal',tag:'Fresh & Cool',
+    bg:'linear-gradient(135deg,#030810,#051a20)',accent:'#00d4aa',pill:'#0a4060',text:'#eaf8f5',
+    colors:{primary:'#00d4aa',secondary:'#80f0d8',accent:'#0090c8',bg:'#030810',bg2:'#08121e',bg3:'#0d1c2a',text:'#eaf8f5',grad:'135deg,#00d4aa,#0090c8'}
   },
   {
-    id: 'champagne-white', name: 'Champagne', tag: 'Elegant',
-    colors: { ink: '#1a1410', cream: '#fdf8f0', gold: '#b8963e', goldLight: '#dfc87a', plum: '#3a2010', rose: '#c06050' }
-  },
-  {
-    id: 'ocean-deep', name: 'Ocean Deep', tag: 'Cool',
-    colors: { ink: '#030810', cream: '#eaf4ff', gold: '#4a9fd4', goldLight: '#80c8f0', plum: '#0a1830', rose: '#2060a0' }
-  },
-  {
-    id: 'warm-terracotta', name: 'Terracotta', tag: 'Earthy',
-    colors: { ink: '#150a05', cream: '#fdf0e8', gold: '#c8703a', goldLight: '#e8a878', plum: '#3a1808', rose: '#d05030' }
+    id:'terracotta',name:'Terracotta',tag:'Warm & Earthy',
+    bg:'linear-gradient(135deg,#150a05,#2a1208)',accent:'#c8703a',pill:'#3a1808',text:'#fdf0e8',
+    colors:{primary:'#c8703a',secondary:'#e8a878',accent:'#d05030',bg:'#150a05',bg2:'#1e1008',bg3:'#2a1810',text:'#fdf0e8',grad:'135deg,#c8703a,#d05030'}
   },
 ];
 
-window._selectedTheme = null;
+window._selectedTheme=null;
 
-function loadThemes() {
-  const grid = document.getElementById('themeGrid');
-  grid.innerHTML = THEMES.map(t => `
+function renderThemeGrid(){
+  const grid=document.getElementById('themeGrid');
+  if(!grid)return;
+  grid.innerHTML=THEMES.map(t=>`
     <div class="theme-card" id="theme-${t.id}" onclick="selectTheme('${t.id}')">
-      <div class="theme-swatch">
-        <div class="theme-swatch-col" style="background:${t.colors.ink}"></div>
-        <div class="theme-swatch-col" style="background:${t.colors.gold}"></div>
-        <div class="theme-swatch-col" style="background:${t.colors.plum}"></div>
-        <div class="theme-swatch-col" style="background:${t.colors.cream}"></div>
-        <div class="theme-swatch-col" style="background:${t.colors.rose}"></div>
+      <div class="theme-preview">
+        <div class="theme-preview-bg" style="background:${t.bg};"></div>
+        <div class="theme-preview-dots">
+          <div class="theme-preview-line" style="background:${t.text};opacity:0.9;width:70%;"></div>
+          <div class="theme-preview-line" style="background:${t.accent};width:50%;"></div>
+          <div class="theme-preview-pill" style="background:${t.accent};"></div>
+        </div>
       </div>
-      <div class="theme-name">${t.name}</div>
-      <div class="theme-tag">${t.tag}</div>
+      <div class="theme-meta">
+        <div class="theme-name">${t.name}</div>
+        <div class="theme-tag">${t.tag}</div>
+        <div class="theme-swatches">
+          <div class="theme-swatch" style="background:${t.accent};"></div>
+          <div class="theme-swatch" style="background:${t.pill};"></div>
+          <div class="theme-swatch" style="background:${t.text};"></div>
+        </div>
+      </div>
     </div>
   `).join('');
 }
 
-window.selectTheme = (id) => {
-  document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('selected'));
-  document.getElementById('theme-' + id).classList.add('selected');
-  window._selectedTheme = id;
-  // Live preview on admin panel
-  const t = THEMES.find(x => x.id === id);
-  if (t) livePreviewColors(t.colors);
+window.selectTheme=(id)=>{
+  document.querySelectorAll('.theme-card').forEach(c=>c.classList.remove('selected'));
+  const card=document.getElementById('theme-'+id);
+  if(card)card.classList.add('selected');
+  window._selectedTheme=id;
+  const t=THEMES.find(x=>x.id===id);
+  const nameEl=document.getElementById('selectedThemeName');
+  if(nameEl&&t)nameEl.textContent=`"${t.name}" selected`;
 };
 
-window.applySelectedTheme = async () => {
-  if (!window._selectedTheme) { showToast('⚠️ Please select a theme first', 'error'); return; }
-  const t = THEMES.find(x => x.id === window._selectedTheme);
-  if (!t) return;
-  try {
-    await set(ref(db, 'settings/theme'), t.colors);
+window.applySelectedTheme=async()=>{
+  if(!window._selectedTheme){showToast('⚠️ Pehle ek theme select karo','error');return;}
+  const t=THEMES.find(x=>x.id===window._selectedTheme);
+  if(!t)return;
+  try{
+    await set(ref(db,'settings/theme'),t.colors);
     showToast(`✅ Theme "${t.name}" applied to website!`);
-    // Also update color pickers
-    document.getElementById('col-ink').value = t.colors.ink;
-    document.getElementById('col-cream').value = t.colors.cream;
-    document.getElementById('col-gold').value = t.colors.gold;
-    document.getElementById('col-goldlight').value = t.colors.goldLight;
-    document.getElementById('col-plum').value = t.colors.plum;
-    document.getElementById('col-rose').value = t.colors.rose;
-    renderColorPreview();
-  } catch(e) { showToast('❌ Failed to apply theme', 'error'); }
+  }catch(e){showToast('❌ Theme apply failed','error');}
 };
 
-// ─── CUSTOM COLORS ────────────────────────────
-function livePreviewColors(colors) {
-  const r = document.documentElement.style;
-  Object.entries(colors).forEach(([k, v]) => {
-    const map = { ink:'--ink', cream:'--cream', gold:'--gold', goldLight:'--gold-light', plum:'--plum', rose:'--rose' };
-    if (map[k]) r.setProperty(map[k], v);
-  });
+// ─── CUSTOM COLORS ────────────────────────────────────
+function livePreviewColors(c){
+  const r=document.documentElement.style;
+  const map={ink:'--bg',cream:'--text',gold:'--gold',goldLight:'--gold2',plum:'--accent',rose:'--accent'};
+  Object.entries(c).forEach(([k,v])=>{if(map[k])r.setProperty(map[k],v);});
 }
-
-window.previewColors = () => {
+window.previewColors=()=>{
   livePreviewColors({
-    ink: document.getElementById('col-ink').value,
-    cream: document.getElementById('col-cream').value,
-    gold: document.getElementById('col-gold').value,
-    goldLight: document.getElementById('col-goldlight').value,
-    plum: document.getElementById('col-plum').value,
-    rose: document.getElementById('col-rose').value,
+    ink:document.getElementById('col-ink').value,
+    cream:document.getElementById('col-cream').value,
+    gold:document.getElementById('col-gold').value,
+    goldLight:document.getElementById('col-goldlight').value,
+    plum:document.getElementById('col-plum').value,
   });
   renderColorPreview();
-  showToast('👁 Live preview applied (admin panel only)');
+  showToast('👁 Preview applied (admin only)');
 };
-
-window.saveCustomColors = async () => {
-  const colors = {
-    ink: document.getElementById('col-ink').value,
-    cream: document.getElementById('col-cream').value,
-    gold: document.getElementById('col-gold').value,
-    goldLight: document.getElementById('col-goldlight').value,
-    plum: document.getElementById('col-plum').value,
-    rose: document.getElementById('col-rose').value,
+window.saveCustomColors=async()=>{
+  const colors={
+    ink:document.getElementById('col-ink').value,
+    cream:document.getElementById('col-cream').value,
+    gold:document.getElementById('col-gold').value,
+    goldLight:document.getElementById('col-goldlight').value,
+    plum:document.getElementById('col-plum').value,
+    rose:document.getElementById('col-rose').value,
   };
-  try {
-    await set(ref(db, 'settings/theme'), colors);
-    livePreviewColors(colors);
-    renderColorPreview();
-    showToast('✅ Custom colors saved to website!');
-  } catch(e) { showToast('❌ Save failed', 'error'); }
+  try{await set(ref(db,'settings/theme'),colors);renderColorPreview();showToast('✅ Colors saved to website!');}
+  catch(e){showToast('❌ Save failed','error');}
 };
-
-window.resetColors = async () => {
-  const def = { ink:'#0a0608', cream:'#f7f2ec', gold:'#c9a96e', goldLight:'#e8d5b0', plum:'#3d1c3a', rose:'#c4607a' };
-  document.getElementById('col-ink').value = def.ink;
-  document.getElementById('col-cream').value = def.cream;
-  document.getElementById('col-gold').value = def.gold;
-  document.getElementById('col-goldlight').value = def.goldLight;
-  document.getElementById('col-plum').value = def.plum;
-  document.getElementById('col-rose').value = def.rose;
-  await set(ref(db, 'settings/theme'), def);
-  livePreviewColors(def);
-  renderColorPreview();
-  showToast('↺ Colors reset to default');
+window.resetColors=async()=>{
+  const def={ink:'#0a0608',cream:'#f7f2ec',gold:'#c9a96e',goldLight:'#e8d5b0',plum:'#3d1c3a',rose:'#c4607a'};
+  document.getElementById('col-ink').value=def.ink;
+  document.getElementById('col-cream').value=def.cream;
+  document.getElementById('col-gold').value=def.gold;
+  document.getElementById('col-goldlight').value=def.goldLight;
+  document.getElementById('col-plum').value=def.plum;
+  document.getElementById('col-rose').value=def.rose;
+  await set(ref(db,'settings/theme'),def);renderColorPreview();showToast('↺ Colors reset');
 };
-
-function renderColorPreview() {
-  const colors = [
-    { label: 'Background', val: document.getElementById('col-ink').value },
-    { label: 'Text', val: document.getElementById('col-cream').value },
-    { label: 'Gold', val: document.getElementById('col-gold').value },
-    { label: 'Gold Light', val: document.getElementById('col-goldlight').value },
-    { label: 'Plum', val: document.getElementById('col-plum').value },
-    { label: 'Rose', val: document.getElementById('col-rose').value },
+function renderColorPreview(){
+  const cols=[
+    {l:'Background',v:document.getElementById('col-ink').value},
+    {l:'Text',v:document.getElementById('col-cream').value},
+    {l:'Primary',v:document.getElementById('col-gold').value},
+    {l:'Primary Light',v:document.getElementById('col-goldlight').value},
+    {l:'Accent',v:document.getElementById('col-plum').value},
+    {l:'Rose',v:document.getElementById('col-rose').value},
   ];
-  document.getElementById('colorPreview').innerHTML = colors.map(c => `
+  document.getElementById('colorPreview').innerHTML=cols.map(c=>`
     <div style="text-align:center;">
-      <div style="width:100%;height:60px;background:${c.val};border:1px solid var(--border);margin-bottom:6px;"></div>
-      <div style="font-size:9px;letter-spacing:1px;color:var(--text-muted);">${c.label}</div>
-      <div style="font-size:10px;color:var(--cream);font-family:monospace;">${c.val}</div>
+      <div style="width:100%;height:50px;background:${c.v};border:1px solid var(--border);border-radius:8px;margin-bottom:6px;"></div>
+      <div style="font-size:9px;color:var(--muted);">${c.l}</div>
+      <div style="font-size:9px;color:var(--text);font-family:monospace;">${c.v}</div>
     </div>
   `).join('');
 }
 
-// ─── APPOINTMENTS ─────────────────────────────
-window.loadAppointments = async () => {
-  const tbody = document.getElementById('apptTableBody');
-  const filter = document.getElementById('apptFilter')?.value || 'all';
-  tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;"><div class="spinner"></div></td></tr>`;
-
-  try {
-    const snap = await get(ref(db, 'appointments'));
-    let appts = [];
-    if (snap.exists()) {
-      const val = snap.val() || {};
-      Object.entries(val).forEach(([k,v]) => appts.push({id:k, ...v}));
-    }
-
-    // Filter client-side
-    if (filter !== 'all') appts = appts.filter(a => a.status === filter);
-    // Sort newest first
-    appts.sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
-
-    if (!appts.length) {
-      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted);">No appointments found</td></tr>`;
+// ─── APPOINTMENTS ─────────────────────────────────────
+window.loadAppointments=async()=>{
+  const tbody=document.getElementById('apptTableBody');
+  const filter=document.getElementById('apptFilter')?.value||'all';
+  tbody.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:40px;"><div class="spinner"></div></td></tr>`;
+  try{
+    const snap=await get(ref(db,'appointments'));
+    let appts=[];
+    if(snap.exists())Object.entries(snap.val()||{}).forEach(([k,v])=>appts.push({id:k,...v}));
+    if(filter!=='all')appts=appts.filter(a=>a.status===filter);
+    appts.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+    if(!appts.length){
+      tbody.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--muted);">Koi appointment nahi mili</td></tr>`;
       return;
     }
-
-    tbody.innerHTML = appts.map(a => {
-      const date = a.createdAt ? new Date(a.createdAt).toLocaleDateString('en-IN') : '—';
-      const prefDate = a.date || '—';
-      const statusMap = { pending: 'status-pending', confirmed: 'status-confirmed', done: 'status-done', cancelled: 'status-cancelled' };
-      const cls = statusMap[a.status] || 'status-pending';
+    const stMap={pending:'status-pending',confirmed:'status-confirmed',done:'status-done',cancelled:'status-cancelled'};
+    tbody.innerHTML=appts.map(a=>{
+      const created=a.createdAt?new Date(a.createdAt).toLocaleDateString('en-IN'):'—';
+      const cls=stMap[a.status]||'status-pending';
       return `<tr>
-        <td><strong>${a.name || '—'}</strong><br><span style="font-size:11px;color:var(--text-muted);">${date}</span></td>
-        <td><a href="tel:${a.phone}" style="color:var(--gold);text-decoration:none;">${a.phone || '—'}</a></td>
-        <td>${a.service || '—'}</td>
-        <td>${prefDate}</td>
-        <td><span class="status-badge ${cls}">${a.status || 'pending'}</span></td>
-        <td style="display:flex;gap:6px;flex-wrap:wrap;">
-          <button class="btn btn-success btn-sm" onclick="updateApptStatus('${a.id}','confirmed')">✓</button>
-          <button class="btn btn-outline btn-sm" onclick="updateApptStatus('${a.id}','done')">Done</button>
-          <button class="btn btn-danger btn-sm" onclick="updateApptStatus('${a.id}','cancelled')">✕</button>
+        <td><strong>${a.name||'—'}</strong><br><span style="font-size:11px;color:var(--muted);">${created}</span></td>
+        <td><a href="tel:${a.phone}" style="color:var(--gold);text-decoration:none;">${a.phone||'—'}</a></td>
+        <td style="max-width:150px;">${a.service||'—'}</td>
+        <td>${a.date||'—'}</td>
+        <td><span class="status-badge ${cls}">${a.status||'pending'}</span></td>
+        <td style="display:flex;gap:5px;flex-wrap:wrap;">
+          <button class="btn btn-success btn-sm" title="Confirm" onclick="updateApptStatus('${a.id}','confirmed')">✓</button>
+          <button class="btn btn-outline btn-sm" title="Done" onclick="updateApptStatus('${a.id}','done')">Done</button>
+          <button class="btn btn-danger btn-sm" title="Cancel" onclick="updateApptStatus('${a.id}','cancelled')">✕</button>
         </td>
       </tr>`;
     }).join('');
-
-    const pending = appts.filter(a => a.status === 'pending').length;
-    document.getElementById('pendingBadge').textContent = pending || '0';
-  } catch(e) {
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted);">Error loading appointments.</td></tr>`;
-    console.error(e);
+    document.getElementById('pendingBadge').textContent=appts.filter(a=>a.status==='pending').length||'0';
+  }catch(e){
+    tbody.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--muted);">Error loading appointments</td></tr>`;
   }
 };
 
-window.updateApptStatus = async (id, status) => {
-  try {
-    await update(ref(db, 'appointments/' + id), { status });
-    showToast(`✅ Marked as ${status}`);
-    loadAppointments();
-    loadDashboard();
-  } catch(e) { showToast('❌ Update failed', 'error'); }
+window.updateApptStatus=async(id,status)=>{
+  try{
+    await update(ref(db,'appointments/'+id),{status});
+    showToast(`✅ Marked as ${status}`);loadAppointments();loadDashboard();
+  }catch(e){showToast('❌ Update failed','error');}
 };
 
-// ─── DASHBOARD ────────────────────────────────
-async function loadDashboard() {
-  try {
-    const snap = await get(ref(db, 'appointments'));
-    const all = [];
-    if (snap.exists()) {
-      const val = snap.val() || {};
-      Object.entries(val).forEach(([k,v]) => all.push({id:k, ...v}));
+// ─── DASHBOARD ────────────────────────────────────────
+async function loadDashboard(){
+  try{
+    const snap=await get(ref(db,'appointments'));
+    const all=[];
+    if(snap.exists())Object.entries(snap.val()||{}).forEach(([k,v])=>all.push({id:k,...v}));
+    const today=new Date().toISOString().split('T')[0];
+    document.getElementById('dash-total').textContent=all.length;
+    document.getElementById('dash-pending').textContent=all.filter(a=>a.status==='pending').length;
+    document.getElementById('dash-today').textContent=all.filter(a=>a.date===today).length;
+    document.getElementById('pendingBadge').textContent=all.filter(a=>a.status==='pending').length||'0';
+    const recent=all.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).slice(0,5);
+    const el=document.getElementById('recentAppts');
+    if(!recent.length){
+      el.innerHTML=`<div class="empty-state"><div class="empty-icon">📅</div>Koi booking nahi hai abhi</div>`;return;
     }
-
-    const today = new Date().toLocaleDateString('en-IN');
-    const todayCount = all.filter(a => a.date === new Date().toISOString().split('T')[0]).length;
-    const pendingCount = all.filter(a => a.status === 'pending').length;
-
-    document.getElementById('dash-total').textContent = all.length;
-    document.getElementById('dash-pending').textContent = pendingCount;
-    document.getElementById('dash-today').textContent = todayCount;
-    document.getElementById('pendingBadge').textContent = pendingCount || '0';
-
-    // Recent 5
-    const recent = all.slice(-5).reverse();
-    const recentEl = document.getElementById('recentAppts');
-    if (!recent.length) {
-      recentEl.innerHTML = `<div class="empty-state"><div class="empty-icon">📅</div>No appointments yet</div>`;
-      return;
-    }
-    recentEl.innerHTML = recent.map(a => `
+    const stMap={pending:'status-pending',confirmed:'status-confirmed',done:'status-done',cancelled:'status-cancelled'};
+    el.innerHTML=recent.map(a=>`
       <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">
         <div>
-          <div style="font-size:13px;color:var(--cream);">${a.name || '—'}</div>
-          <div style="font-size:11px;color:var(--text-muted);">${a.service || '—'} · ${a.phone || ''}</div>
+          <div style="font-size:13px;color:var(--text);">${a.name||'—'}</div>
+          <div style="font-size:11px;color:var(--muted);">${a.service||'—'} · ${a.phone||''}</div>
         </div>
-        <span class="status-badge ${a.status==='confirmed'?'status-confirmed':a.status==='done'?'status-done':a.status==='cancelled'?'status-cancelled':'status-pending'}">${a.status||'pending'}</span>
+        <span class="status-badge ${stMap[a.status]||'status-pending'}">${a.status||'pending'}</span>
       </div>
     `).join('');
-  } catch(e) { console.log('Dashboard error:', e); }
+  }catch(e){console.log('Dashboard error:',e);}
 }
 
-// ─── POPUP OFFER ──────────────────────────────
-async function loadPopup() {
-  try {
-    const snap = await get(ref(db, 'settings/popup'));
-    if (snap.exists()) {
-      const d = snap.val();
-      document.getElementById('popupEnabled').checked = !!d.enabled;
-      if (d.heading) document.getElementById('popup-heading').value = d.heading;
-      if (d.sub)     document.getElementById('popup-sub').value = d.sub;
-      if (d.btnText) document.getElementById('popup-btn').value = d.btnText;
-      if (d.imageUrl) {
-        const img = document.getElementById('popupImgPreview');
-        img.src = d.imageUrl; img.classList.add('show');
-      }
-      previewPopupStatus();
-      updatePopupPreview();
+// ─── POPUP ────────────────────────────────────────────
+async function loadPopup(){
+  try{
+    const snap=await get(ref(db,'settings/popup'));
+    if(snap.exists()){
+      const d=snap.val();
+      document.getElementById('popupEnabled').checked=!!d.enabled;
+      if(d.heading)document.getElementById('popup-heading').value=d.heading;
+      if(d.sub)document.getElementById('popup-sub').value=d.sub;
+      if(d.btnText)document.getElementById('popup-btn').value=d.btnText;
+      if(d.imageUrl){const img=document.getElementById('popupImgPreview');img.src=d.imageUrl;img.classList.add('show');}
+      previewPopupStatus();updatePopupPreview();
     }
-  } catch(e) { console.log('Popup load error:', e); }
+  }catch(e){console.log('Popup load error:',e);}
 }
 
-window.previewPopupStatus = () => {
-  const on = document.getElementById('popupEnabled').checked;
-  const msg = document.getElementById('popupStatusMsg');
-  msg.innerHTML = on
-    ? '<span style="color:#6dbd8a;font-size:12px;">✅ Popup ACTIVE — visitors ko dikhega</span>'
-    : '<span style="color:var(--text-muted);font-size:12px;">⭕ Popup OFF — kisi ko nahi dikhega</span>';
+window.previewPopupStatus=()=>{
+  const on=document.getElementById('popupEnabled').checked;
+  const msg=document.getElementById('popupStatusMsg');
+  msg.innerHTML=on
+    ?'<div style="padding:10px 14px;background:rgba(45,138,78,0.1);border:1px solid rgba(45,138,78,0.25);border-radius:8px;font-size:12px;color:#6dbd8a;">✅ Popup ACTIVE — visitors ko dikhega</div>'
+    :'<div style="padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--muted);">⭕ Popup OFF — kisi ko nahi dikhega</div>';
 };
 
-window.updatePopupPreview = () => {
-  const h = document.getElementById('popup-heading').value;
-  const s = document.getElementById('popup-sub').value;
-  const b = document.getElementById('popup-btn').value;
-  document.getElementById('previewHeading').textContent = h || 'Heading yahan aayega';
-  document.getElementById('previewSub').textContent = s || 'Subtext yahan aayega';
-  const btnEl = document.getElementById('previewBtn');
-  if (b) { btnEl.textContent = b; btnEl.style.display = 'inline-block'; }
-  else   { btnEl.style.display = 'none'; }
+window.updatePopupPreview=()=>{
+  const h=document.getElementById('popup-heading').value;
+  const s=document.getElementById('popup-sub').value;
+  const b=document.getElementById('popup-btn').value;
+  document.getElementById('previewHeading').textContent=h||'Heading yahan aayega';
+  document.getElementById('previewSub').textContent=s||'Subtext yahan aayega';
+  const btnEl=document.getElementById('previewBtn');
+  if(b){btnEl.textContent=b;btnEl.style.display='inline-block';}else{btnEl.style.display='none';}
 };
-['popup-heading','popup-sub','popup-btn'].forEach(id => {
-  const el = document.getElementById(id);
-  if (el) el.addEventListener('input', window.updatePopupPreview);
-});
 
-window.uploadPopupImage = async (input) => {
-  const file = input.files[0];
-  if (!file) return;
-  if (file.size > 5 * 1024 * 1024) { showToast('❌ Image 5MB se badi hai', 'error'); return; }
-  const progressEl = document.getElementById('popupUploadProgress');
-  const bar        = document.getElementById('popupUploadBar');
-  progressEl.style.display = 'block';
-  bar.style.width = '30%';
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('upload_preset', CLOUDINARY_PRESET);
-  formData.append('folder', 'winsome/popup');
-  try {
-    bar.style.width = '60%';
-    const res  = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, { method:'POST', body:formData });
-    const data = await res.json();
-    bar.style.width = '100%';
-    const img = document.getElementById('popupImgPreview');
-    img.src = data.secure_url; img.classList.add('show');
-    progressEl.style.display = 'none';
+window.uploadPopupImage=async(input)=>{
+  const file=input.files[0];if(!file)return;
+  if(file.size>5*1024*1024){showToast('❌ 5MB se badi image hai','error');return;}
+  const progress=document.getElementById('popupUploadProgress');
+  const bar=document.getElementById('popupUploadBar');
+  progress.style.display='block';bar.style.width='30%';
+  const fd=new FormData();
+  fd.append('file',file);fd.append('upload_preset',CLOUDINARY_PRESET);fd.append('folder','winsome/popup');
+  try{
+    bar.style.width='60%';
+    const res=await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`,{method:'POST',body:fd});
+    const data=await res.json();
+    bar.style.width='100%';
+    const img=document.getElementById('popupImgPreview');
+    img.src=data.secure_url;img.classList.add('show');
+    progress.style.display='none';
     showToast('✅ Image upload ho gayi! Save karo.');
-    // store temp so save picks it up
-    window._popupTempImageUrl = data.secure_url;
-  } catch(e) {
-    progressEl.style.display = 'none';
-    showToast('❌ Upload failed. Check Cloudinary settings.', 'error');
-  }
+    window._popupTempImageUrl=data.secure_url;
+  }catch(e){progress.style.display='none';showToast('❌ Upload failed','error');}
 };
-
-window.removePopupImage = () => {
-  const img = document.getElementById('popupImgPreview');
-  img.src = ''; img.classList.remove('show');
-  window._popupTempImageUrl = '';
-  showToast('🗑️ Image hata di — save karo to apply hoga');
+window.removePopupImage=()=>{
+  const img=document.getElementById('popupImgPreview');
+  img.src='';img.classList.remove('show');window._popupTempImageUrl='';
+  showToast('🗑️ Image hata di');
 };
-
-window.savePopup = async () => {
-  try {
-    const imageUrl = window._popupTempImageUrl !== undefined
-      ? window._popupTempImageUrl
-      : (document.getElementById('popupImgPreview').src || '');
-    await set(ref(db, 'settings/popup'), {
-      enabled:  document.getElementById('popupEnabled').checked,
-      heading:  document.getElementById('popup-heading').value,
-      sub:      document.getElementById('popup-sub').value,
-      btnText:  document.getElementById('popup-btn').value,
-      imageUrl: imageUrl,
-      updatedAt: Date.now()
+window.savePopup=async()=>{
+  try{
+    const imageUrl=window._popupTempImageUrl!==undefined?window._popupTempImageUrl:(document.getElementById('popupImgPreview').src||'');
+    await set(ref(db,'settings/popup'),{
+      enabled:document.getElementById('popupEnabled').checked,
+      heading:document.getElementById('popup-heading').value,
+      sub:document.getElementById('popup-sub').value,
+      btnText:document.getElementById('popup-btn').value,
+      imageUrl,updatedAt:Date.now()
     });
-    showToast('✅ Popup save ho gaya! Website pe live hai.');
-    window._popupTempImageUrl = undefined;
-  } catch(e) {
-    showToast('❌ Save failed: ' + e.message, 'error');
-  }
+    showToast('✅ Popup save ho gaya! Live hai website pe.');
+    window._popupTempImageUrl=undefined;
+  }catch(e){showToast('❌ Save failed: '+e.message,'error');}
 };
-const DEFAULT_CATALOGUE = [
-  { name:'Hair Spa',             cat:'hair',      desc:'Deep conditioning treatment that restores moisture and shine.',               price:'₹499'   },
-  { name:'Hair Treatment',       cat:'hair',      desc:'Targeted treatment for damaged, frizzy or weak hair.',                       price:'₹599'   },
-  { name:'Hair Colour',          cat:'hair',      desc:'Enhance your look with rich, long-lasting colour.',                          price:'₹799'   },
-  { name:"Women's Haircut",      cat:'hair',      desc:'Stylish haircut tailored to suit your face shape and style.',                price:'₹299'   },
-  { name:"Men's Haircut",        cat:'hair',      desc:'Professional grooming for a fresh, clean look.',                             price:'₹199'   },
-  { name:'Kids Haircut',         cat:'hair',      desc:'Safe and stylish haircuts for children of all ages.',                       price:'₹149'   },
-  { name:'Facial',               cat:'face',      desc:'Helps cleanse pores, hydrate skin and restore natural glow.',               price:'₹499'   },
-  { name:'Face Cleanup',         cat:'face',      desc:'Deep cleansing treatment to remove impurities and unclog pores.',           price:'₹299'   },
-  { name:'Face De-Tan',          cat:'face',      desc:'Removes tan and dullness to reveal brighter, even-toned skin.',             price:'₹349'   },
-  { name:'Face Waxing',          cat:'waxing',    desc:'Gently removes facial hair to leave skin smooth and hair-free.',            price:'₹149'   },
-  { name:'Eyebrow Threading',    cat:'threading', desc:'Precise shaping using thread for perfectly defined brows.',                  price:'₹49'    },
-  { name:'Upper Lips Threading', cat:'threading', desc:'Removes fine hair gently for a clean upper lip.',                          price:'₹39'    },
-  { name:'Forehead Threading',   cat:'threading', desc:'Precise and hygienic hair removal from forehead.',                          price:'₹59'    },
-  { name:'Hand Waxing',          cat:'waxing',    desc:'Gently removes unwanted hair from hands for smooth skin.',                  price:'₹199'   },
-  { name:'Legs Waxing',          cat:'waxing',    desc:'Removes unwanted hair effectively for long-lasting smoothness.',            price:'₹349'   },
-  { name:'Manicure',             cat:'nails',     desc:'Cleanses, shapes, and nourishes hands for a polished look.',                price:'₹299'   },
-  { name:'Pedicure',             cat:'nails',     desc:'Relaxing foot care treatment to soothe and beautify.',                      price:'₹349'   },
-  { name:'Head Massage',         cat:'body',      desc:'Relieves stress, improves blood circulation and promotes relaxation.',      price:'₹399'   },
-  { name:'Body Polishing',       cat:'body',      desc:'Exfoliating treatment that removes dead skin cells for a radiant glow.',    price:'₹999'   },
-  { name:'Bridal Makeup',        cat:'bridal',    desc:'Customized bridal look with premium products for your special day.',        price:'₹2,999' },
+
+// ─── CATALOGUE ────────────────────────────────────────
+const DEFAULT_CATALOGUE=[
+  {name:'Hair Spa',cat:'hair',desc:'Deep conditioning restores moisture and shine.',price:'₹499'},
+  {name:'Hair Treatment',cat:'hair',desc:'Targeted treatment for damaged or frizzy hair.',price:'₹599'},
+  {name:'Hair Colour',cat:'hair',desc:'Rich, long-lasting colour.',price:'₹799'},
+  {name:"Women's Haircut",cat:'hair',desc:'Stylish haircut for your face shape.',price:'₹299'},
+  {name:"Men's Haircut",cat:'hair',desc:'Professional grooming, fresh clean look.',price:'₹199'},
+  {name:'Kids Haircut',cat:'hair',desc:'Safe, stylish cuts for children.',price:'₹149'},
+  {name:'Facial',cat:'face',desc:'Cleanse pores, hydrate and restore glow.',price:'₹499'},
+  {name:'Face Cleanup',cat:'face',desc:'Deep cleansing to remove impurities.',price:'₹299'},
+  {name:'Face De-Tan',cat:'face',desc:'Removes tan for brighter, even-toned skin.',price:'₹349'},
+  {name:'Face Waxing',cat:'waxing',desc:'Gentle facial hair removal.',price:'₹149'},
+  {name:'Eyebrow Threading',cat:'threading',desc:'Precise shaping for defined brows.',price:'₹49'},
+  {name:'Upper Lips Threading',cat:'threading',desc:'Gentle upper lip hair removal.',price:'₹39'},
+  {name:'Forehead Threading',cat:'threading',desc:'Precise hygienic forehead hair removal.',price:'₹59'},
+  {name:'Hand Waxing',cat:'waxing',desc:'Removes unwanted hair from hands.',price:'₹199'},
+  {name:'Legs Waxing',cat:'waxing',desc:'Long-lasting leg hair removal.',price:'₹349'},
+  {name:'Manicure',cat:'nails',desc:'Cleanses, shapes, nourishes hands.',price:'₹299'},
+  {name:'Pedicure',cat:'nails',desc:'Relaxing foot care treatment.',price:'₹349'},
+  {name:'Head Massage',cat:'body',desc:'Relieves stress, promotes relaxation.',price:'₹399'},
+  {name:'Body Polishing',cat:'body',desc:'Exfoliating treatment for radiant skin.',price:'₹999'},
+  {name:'Bridal Makeup',cat:'bridal',desc:'Customized bridal look for your special day.',price:'₹2,999'},
 ];
+const CAT_LABELS={hair:'💇 Hair',face:'✨ Face & Skin',waxing:'🪒 Waxing',threading:'🧵 Threading',nails:'💅 Nails',body:'💆 Body',bridal:'👰 Bridal'};
+let _catalogueData=[];
+let _catAdminFilter='all';
 
-const CAT_LABELS = { hair:'Hair', face:'Face & Skin', waxing:'Waxing', threading:'Threading', nails:'Nails', body:'Body', bridal:'Bridal' };
-let _catalogueData = [];
-let _catAdminFilter = 'all';
-
-async function loadCatalogue() {
-  try {
-    const snap = await get(ref(db, 'settings/catalogue'));
-    _catalogueData = snap.exists() ? snap.val().items : [...DEFAULT_CATALOGUE];
-  } catch(e) {
-    _catalogueData = [...DEFAULT_CATALOGUE];
-  }
+async function loadCatalogue(){
+  try{
+    const snap=await get(ref(db,'settings/catalogue'));
+    _catalogueData=snap.exists()?(snap.val().items||[]):[...DEFAULT_CATALOGUE];
+  }catch(e){_catalogueData=[...DEFAULT_CATALOGUE];}
   renderCatalogueAdmin();
 }
 
-function renderCatalogueAdmin() {
-  const list = document.getElementById('catalogueAdminList');
-  if (!list) return;
-  const filtered = _catAdminFilter === 'all'
-    ? _catalogueData
-    : _catalogueData.filter(s => s.cat === _catAdminFilter);
-
-  document.getElementById('catCount').textContent = `(${_catalogueData.length} services)`;
-
-  if (!filtered.length) {
-    list.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div>No services in this category</div>`;
-    return;
+function renderCatalogueAdmin(){
+  const list=document.getElementById('catalogueAdminList');if(!list)return;
+  const filtered=_catAdminFilter==='all'?_catalogueData:_catalogueData.filter(s=>s.cat===_catAdminFilter);
+  document.getElementById('catCount').textContent=`(${_catalogueData.length} services)`;
+  if(!filtered.length){
+    list.innerHTML=`<div class="empty-state"><div class="empty-icon">📋</div>Is category mein koi service nahi hai</div>`;return;
   }
-
-  list.innerHTML = filtered.map((svc, idx) => {
-    const realIdx = _catalogueData.indexOf(svc);
-    const imgHtml = svc.imageUrl
-      ? `<img src="${svc.imageUrl}" style="width:52px;height:52px;object-fit:cover;border:1px solid var(--border);border-radius:2px;display:block;">`
-      : `<div style="width:52px;height:52px;background:rgba(255,255,255,0.04);border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;border-radius:2px;">📷</div>`;
+  list.innerHTML=filtered.map((svc,idx)=>{
+    const realIdx=_catalogueData.indexOf(svc);
+    const imgHtml=svc.imageUrl
+      ?`<img src="${svc.imageUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" alt="">`
+      :`<span style="font-size:18px;">📷</span>`;
     return `
-    <div style="display:grid;grid-template-columns:52px 1fr 1fr auto auto auto;gap:10px;align-items:center;
-      padding:12px 0;border-bottom:1px solid var(--border);" data-idx="${realIdx}">
-      <div style="position:relative;cursor:pointer;" title="Image change karo" onclick="document.getElementById('catImg_${realIdx}').click()">
+    <div class="cat-row" data-idx="${realIdx}">
+      <div class="cat-img-box" title="Image change karo" onclick="document.getElementById('catImg_${realIdx}').click()">
         ${imgHtml}
-        <div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s;border-radius:2px;font-size:14px;"
-          onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">✏️</div>
+        <div class="cat-img-overlay">✏️</div>
         <input type="file" id="catImg_${realIdx}" accept="image/*" style="display:none" onchange="uploadCatItemImage(this,${realIdx})">
       </div>
       <div>
-        <div style="font-size:13px;color:var(--cream);">${svc.name}</div>
-        <div style="font-size:10px;letter-spacing:1px;color:rgba(201,169,110,0.5);">${CAT_LABELS[svc.cat]||svc.cat}</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;">${svc.name}</div>
+        <div style="font-size:10px;color:var(--gold);">${CAT_LABELS[svc.cat]||svc.cat}</div>
       </div>
-      <input value="${svc.desc||''}" style="background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--cream);
-        padding:6px 10px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;"
-        onchange="_catalogueData[${realIdx}].desc=this.value" placeholder="Description">
-      <input value="${svc.price||''}" style="background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--gold);
-        padding:6px 10px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;width:80px;"
-        onchange="_catalogueData[${realIdx}].price=this.value" placeholder="₹499">
-      <select onchange="_catalogueData[${realIdx}].cat=this.value" style="background:#1a1520;border:1px solid var(--border);
-        color:var(--cream);padding:6px 8px;font-family:'DM Sans',sans-serif;font-size:11px;">
+      <input class="cat-inline-input cat-desc-input" value="${svc.desc||''}" placeholder="Description"
+        onchange="_catalogueData[${realIdx}].desc=this.value">
+      <input class="cat-inline-input" value="${svc.price||''}" placeholder="₹499" style="color:var(--gold);"
+        onchange="_catalogueData[${realIdx}].price=this.value">
+      <select class="cat-inline-input cat-select" onchange="_catalogueData[${realIdx}].cat=this.value">
         ${Object.entries(CAT_LABELS).map(([v,l])=>`<option value="${v}" ${svc.cat===v?'selected':''}>${l}</option>`).join('')}
       </select>
       <button class="btn btn-danger btn-sm" onclick="deleteCatalogueItem(${realIdx})" title="Delete">✕</button>
@@ -1688,89 +1573,71 @@ function renderCatalogueAdmin() {
   }).join('');
 }
 
-window.filterCatAdmin = (cat, btn) => {
-  _catAdminFilter = cat;
-  document.querySelectorAll('#catFilterBtns .btn').forEach(b => {
-    b.style.borderColor = ''; b.style.color = '';
-  });
-  btn.style.borderColor = 'var(--gold)'; btn.style.color = 'var(--gold)';
+window.filterCatAdmin=(cat,btn)=>{
+  _catAdminFilter=cat;
+  document.querySelectorAll('#catFilterBtns .btn').forEach(b=>{b.style.borderColor='';b.style.color='';});
+  btn.style.borderColor='var(--gold)';btn.style.color='var(--gold)';
   renderCatalogueAdmin();
 };
 
-window.addCatalogueItem = async () => {
-  const name  = document.getElementById('cat-new-name').value.trim();
-  const cat   = document.getElementById('cat-new-cat').value;
-  const desc  = document.getElementById('cat-new-desc').value.trim();
-  const price = document.getElementById('cat-new-price').value.trim();
-  if (!name) { showToast('❌ Service name daalo', 'error'); return; }
-  const newItem = { name, cat, desc: desc || 'Premium quality service.', price: price || 'On request', imageUrl: '' };
-  // If image was selected, upload it first
-  if (window._catNewImageFile) {
+window.addCatalogueItem=async()=>{
+  const name=document.getElementById('cat-new-name').value.trim();
+  const cat=document.getElementById('cat-new-cat').value;
+  const desc=document.getElementById('cat-new-desc').value.trim();
+  const price=document.getElementById('cat-new-price').value.trim();
+  if(!name){showToast('❌ Service name daalo','error');return;}
+  const newItem={name,cat,desc:desc||'Premium quality service.',price:price||'On request',imageUrl:''};
+  if(window._catNewImageFile){
     showToast('⏳ Image upload ho rahi hai...');
-    const url = await uploadToCloudinary(window._catNewImageFile, 'winsome/catalogue');
-    if (url) newItem.imageUrl = url;
-    window._catNewImageFile = null;
+    const url=await uploadToCloudinary(window._catNewImageFile,'winsome/catalogue');
+    if(url)newItem.imageUrl=url;
+    window._catNewImageFile=null;
   }
   _catalogueData.push(newItem);
-  document.getElementById('cat-new-name').value = '';
-  document.getElementById('cat-new-desc').value = '';
-  document.getElementById('cat-new-price').value = '';
-  document.getElementById('catNewImgPreview').style.display = 'none';
-  document.getElementById('catNewImgPreview').src = '';
+  document.getElementById('cat-new-name').value='';
+  document.getElementById('cat-new-desc').value='';
+  document.getElementById('cat-new-price').value='';
+  document.getElementById('catNewImgPreview').style.display='none';
   renderCatalogueAdmin();
   showToast('✅ Service added! Save karo to website pe jaayega.');
 };
 
-window.previewNewCatImage = (input) => {
-  const file = input.files[0];
-  if (!file) return;
-  window._catNewImageFile = file;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const img = document.getElementById('catNewImgPreview');
-    img.src = e.target.result; img.style.display = 'block';
-  };
+window.previewNewCatImage=(input)=>{
+  const file=input.files[0];if(!file)return;
+  window._catNewImageFile=file;
+  const reader=new FileReader();
+  reader.onload=e=>{const img=document.getElementById('catNewImgPreview');img.src=e.target.result;img.style.display='block';};
   reader.readAsDataURL(file);
 };
 
-window.uploadCatItemImage = async (input, realIdx) => {
-  const file = input.files[0];
-  if (!file) return;
+window.uploadCatItemImage=async(input,realIdx)=>{
+  const file=input.files[0];if(!file)return;
   showToast('⏳ Image upload ho rahi hai...');
-  const url = await uploadToCloudinary(file, 'winsome/catalogue');
-  if (url) {
-    _catalogueData[realIdx].imageUrl = url;
-    renderCatalogueAdmin();
-    showToast('✅ Image upload ho gayi! Save karo to apply hoga.');
-  } else {
-    showToast('❌ Upload failed', 'error');
-  }
+  const url=await uploadToCloudinary(file,'winsome/catalogue');
+  if(url){_catalogueData[realIdx].imageUrl=url;renderCatalogueAdmin();showToast('✅ Image uploaded! Save karo.');}
+  else showToast('❌ Upload failed','error');
 };
 
-async function uploadToCloudinary(file, folder) {
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('upload_preset', CLOUDINARY_PRESET);
-  formData.append('folder', folder);
-  try {
-    const res  = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, { method:'POST', body:formData });
-    const data = await res.json();
-    return data.secure_url || null;
-  } catch(e) { return null; }
+async function uploadToCloudinary(file,folder){
+  const fd=new FormData();
+  fd.append('file',file);fd.append('upload_preset',CLOUDINARY_PRESET);fd.append('folder',folder);
+  try{
+    const res=await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`,{method:'POST',body:fd});
+    const data=await res.json();return data.secure_url||null;
+  }catch(e){return null;}
 }
 
-window.deleteCatalogueItem = (idx) => {
-  if (!confirm(`"${_catalogueData[idx].name}" delete karein?`)) return;
-  _catalogueData.splice(idx, 1);
-  renderCatalogueAdmin();
+window.deleteCatalogueItem=(idx)=>{
+  if(!confirm(`"${_catalogueData[idx].name}" delete karein?`))return;
+  _catalogueData.splice(idx,1);renderCatalogueAdmin();
   showToast('🗑️ Service removed (save karo to apply hoga)');
 };
 
-window.saveCatalogue = async () => {
-  try {
-    await set(ref(db, 'settings/catalogue'), { items: _catalogueData });
+window.saveCatalogue=async()=>{
+  try{
+    await set(ref(db,'settings/catalogue'),{items:_catalogueData});
     showToast('✅ Catalogue saved to website!');
-  } catch(e) { showToast('❌ Save failed', 'error'); }
+  }catch(e){showToast('❌ Save failed','error');}
 };
 </script>
 </body>
